@@ -56,6 +56,7 @@ public class ViewCommand extends CommandOption {
         final PageBuilder pageBuilder = menuBuilder.addPage("VOUCHER_PAGE", 10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34);
         final Page page = pageBuilder.reference();
 
+        menuBuilder.addStaticIcon("TITLE", ChatColor.GRAY + "Vouchers", ChatColor.DARK_GRAY + "This is where you can view all vouchers!", Material.FILLED_MAP, 4);
         menuBuilder.addStaticIcon("NEXT_PAGE", ChatColor.YELLOW + "Next Page", ChatColor.GRAY + "Click for the next page!", Material.ARROW,
                         (g) -> {
                             return page.hasNextPage();
@@ -74,7 +75,7 @@ public class ViewCommand extends CommandOption {
                     voucher.getIcon(), (gui) -> manager.getHolder(gui.getPlayer()).isUnlocked(voucher.getKey()));
 
             pageBuilder.addPageIcon(voucher.getKey().toUpperCase() + "_LOCKED", voucher.getDisplayName(), voucher.getLore() + "\n\n" + VoucherSettings.lockedMessage,
-                    Material.IRON_BARS, (gui) -> !manager.getHolder(gui.getPlayer()).isUnlocked(voucher.getKey()));
+                    Material.PAPER, (gui) -> !manager.getHolder(gui.getPlayer()).isUnlocked(voucher.getKey()));
         });
 
         return builder;

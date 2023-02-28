@@ -74,7 +74,7 @@ public abstract class Voucher {
     }
 
     public ItemStack getItem() {
-        final ItemStack stack = new ItemStack(getIcon());
+        final ItemStack stack = new ItemStack(Material.PAPER);
         ItemMeta meta = stack.getItemMeta();
         if (meta == null) {
             meta = Vouchers.instance.getServer().getItemFactory().getItemMeta(getIcon());

@@ -1,6 +1,5 @@
 package com.ravingarinc.voucher.listener;
 
-import com.ravingarinc.api.I;
 import com.ravingarinc.api.module.ModuleListener;
 import com.ravingarinc.api.module.ModuleLoadException;
 import com.ravingarinc.api.module.RavinPlugin;
@@ -9,7 +8,10 @@ import com.ravingarinc.voucher.player.Holder;
 import com.ravingarinc.voucher.player.HolderManager;
 import com.ravingarinc.voucher.tracker.VoucherTracker;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.Sound;
+import org.bukkit.SoundCategory;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
@@ -29,7 +31,6 @@ import org.bukkit.persistence.PersistentDataType;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import java.util.logging.Level;
 
 public class PlayerListener extends ModuleListener {
     private static final long CHECK_INTERVAL = 6000L;
@@ -85,7 +86,6 @@ public class PlayerListener extends ModuleListener {
 
     @EventHandler
     public void onPrepareItemCraftEvent(final PrepareItemCraftEvent event) {
-        I.log(Level.WARNING, "Prepare Item Event");
         tracker.handleEvent(event);
     }
 
@@ -98,8 +98,8 @@ public class PlayerListener extends ModuleListener {
 
     public boolean handleVoucherClick(final PlayerInteractEvent event) {
         if (event.getHand() == EquipmentSlot.HAND && event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-            final ItemStack item = event.getItem();
-            if (item == null) {
+            final ItemStack item = event.getPlayer().getInventory().getItemInMainHand();
+            if (item.getType() == Material.AIR) {
                 return true;
             }
             final ItemMeta meta = item.getItemMeta();
@@ -123,6 +123,8 @@ public class PlayerListener extends ModuleListener {
             }
 
             holder.unlock(voucher);
+            player.sendMessage(ChatColor.GREEN + "You unlocked the " + voucher.getDisplayName());
+            player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS, 0.7F, 1.0F);
             player.getInventory().setItemInMainHand(null);
             return false;
         }

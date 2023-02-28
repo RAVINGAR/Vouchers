@@ -16,7 +16,7 @@ defaults:
     wheat: # This is what the voucher will be 'called' so technically it can be anything
       item-material: wheat # The item gained after harvesting a crop
       block-material: wheat # The block material of the growing crop
-      seed-material: seeds # The item used to plant the crop
+      seed-material: wheat_seeds # The item used to plant the crop
       #If you wish to block crafting of bread as a different voucher, then simply add it to the material-vouchers section
       food-material: bread # The produced edible item of the product
     carrots:
@@ -44,7 +44,6 @@ messages:
   voucher-farm-lore-format:
     - '&7Grants the ability to plant'
     - '&8{seed}&7 to grow &8{block}'
-    - '&7and harvest &8{item}.'
     - '&7Grants the ability to craft'
     - '&7and use &8{food}'
   unlocked-message: '&a<Unlocked>'
