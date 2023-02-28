@@ -53,9 +53,9 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.RAVINGAR.RavinAPI:module:1.1.7'
+    implementation 'com.github.RAVINGAR.RavinAPI:module:1.1.8'
     implementation 'com.github.RAVINGAR.RavinAPI:gui:1.1.8'
-    implementation 'com.github.RAVINGAR.RavinAPI:common:1.1.7'
+    implementation 'com.github.RAVINGAR.RavinAPI:common:1.1.8'
     implementation 'org.jetbrains:annotations:23.1.0'
     compileOnly 'org.spigotmc:spigot-api:1.19.2-R0.1-SNAPSHOT'
 }
