@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-public abstract class Voucher {
+public class Voucher {
     protected final String key;
 
     protected final HolderManager manager;

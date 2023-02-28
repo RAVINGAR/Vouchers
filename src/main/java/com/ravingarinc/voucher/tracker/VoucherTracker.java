@@ -4,7 +4,6 @@ import com.ravingarinc.api.I;
 import com.ravingarinc.api.module.Module;
 import com.ravingarinc.api.module.ModuleLoadException;
 import com.ravingarinc.api.module.RavinPlugin;
-import com.ravingarinc.voucher.api.Subscriber;
 import com.ravingarinc.voucher.api.Voucher;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.Nullable;
@@ -18,8 +17,6 @@ import java.util.logging.Level;
 
 public class VoucherTracker extends Module {
     private final Map<String, Voucher> vouchers;
-
-    private Map<Class<?>, List<Subscriber<?>>> subscribers;
 
     public VoucherTracker(final RavinPlugin plugin) {
         super(VoucherTracker.class, plugin);

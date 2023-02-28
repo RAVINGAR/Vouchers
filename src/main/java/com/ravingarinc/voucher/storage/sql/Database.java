@@ -50,7 +50,7 @@ public abstract class Database extends Module {
 
     @Override
     public void cancel() {
-
+        // do nothing
     }
 
     /**
