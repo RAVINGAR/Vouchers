@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="717a9acc-0232-48f8-b3e5-8646944292ca" name="Changes" comment="final touches and we are done!">
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/storage/sql/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/storage/sql/Database.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/storage/sql/Schema.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/storage/sql/Schema.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/storage/sql/VoucherDatabase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/storage/sql/VoucherDatabase.java" afterDir="false" />
-    </list>
+    <list default="true" id="717a9acc-0232-48f8-b3e5-8646944292ca" name="Changes" comment="Fixes to args length related things" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -168,7 +164,21 @@
       <option name="project" value="LOCAL" />
       <updated>1677558828547</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Final fixes to PMD.">
+      <created>1677558916821</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1677558916821</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Fixes to args length related things">
+      <created>1677559196979</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1677559196979</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -188,6 +198,8 @@
     <MESSAGE value="Other changes" />
     <MESSAGE value="Everything working!" />
     <MESSAGE value="final touches and we are done!" />
-    <option name="LAST_COMMIT_MESSAGE" value="final touches and we are done!" />
+    <MESSAGE value="Final fixes to PMD." />
+    <MESSAGE value="Fixes to args length related things" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixes to args length related things" />
   </component>
 </project>

@@ -43,7 +43,7 @@ public class VoucherCommand extends BaseCommand {
                     }
                     final Player finalPlayer = player;
                     player.getInventory().addItem(voucher.getItem()).values().forEach(i -> finalPlayer.getWorld().dropItemNaturally(finalPlayer.getLocation(), i));
-                    sender.sendMessage(ChatColor.GREEN + "You have given the voucher '" + args[2] + "' to " + args[3]);
+                    sender.sendMessage(ChatColor.GREEN + "You have given the voucher '" + args[2] + "' to " + player.getName());
                     return true;
                 }).buildTabCompletions((sender, args) -> {
                     if (args.length == 4) {
@@ -72,7 +72,7 @@ public class VoucherCommand extends BaseCommand {
                             }
 
                             manager.getHolder(player).unlock(voucher);
-                            sender.sendMessage(ChatColor.GREEN + "You have unlocked the voucher '" + args[2] + "' for " + args[3]);
+                            sender.sendMessage(ChatColor.GREEN + "You have unlocked the voucher '" + args[2] + "' for " + player.getName());
                             return true;
                         }).buildTabCompletions((sender, args) -> {
                     if (args.length == 4) {
@@ -101,7 +101,7 @@ public class VoucherCommand extends BaseCommand {
                             }
 
                             manager.getHolder(player).lock(args[2]);
-                            sender.sendMessage(ChatColor.GREEN + "You have unlocked the voucher '" + args[2] + "' for " + args[3]);
+                            sender.sendMessage(ChatColor.GREEN + "You have unlocked the voucher '" + args[2] + "' for " + player.getName());
                             return true;
                         }).buildTabCompletions((sender, args) -> {
                     if (args.length == 4) {
