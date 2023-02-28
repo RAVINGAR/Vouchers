@@ -87,7 +87,9 @@ public class ArmourVoucher extends ItemVoucher {
         });
 
         subscribe(EntityDamageEvent.class, (event) -> {
-            final Player player = (Player) event.getEntity(); //assert this is a player
+            if (!(event.getEntity() instanceof Player player)) {
+                return;
+            }
             final long currentTime = System.currentTimeMillis();
             final long lastCheck = lastDamageCheck.computeIfAbsent(player.getUniqueId(), (p) -> currentTime);
             if (System.currentTimeMillis() > lastCheck + 7000L) {

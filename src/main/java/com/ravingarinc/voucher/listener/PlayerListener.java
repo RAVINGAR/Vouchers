@@ -16,6 +16,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockDispenseArmorEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
@@ -62,9 +63,12 @@ public class PlayerListener extends ModuleListener {
 
     @EventHandler
     public void onEntityDamageEvent(final EntityDamageEvent event) {
-        if (event.getEntity() instanceof Player) {
-            tracker.handleEvent(event);
-        }
+        tracker.handleEvent(event);
+    }
+
+    @EventHandler
+    public void onDispenser(final BlockDispenseArmorEvent event) {
+        tracker.handleEvent(event);
     }
 
     @EventHandler
