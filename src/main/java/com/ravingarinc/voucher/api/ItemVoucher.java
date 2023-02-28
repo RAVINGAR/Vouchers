@@ -5,6 +5,8 @@ import com.ravingarinc.voucher.storage.VoucherSettings;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.event.inventory.PrepareSmithingEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -51,6 +53,19 @@ public class ItemVoucher extends Voucher {
                 event.setUseItemInHand(Event.Result.DENY);
                 event.setUseInteractedBlock(Event.Result.DENY);
                 VoucherSettings.sendDenyMessage(event.getPlayer());
+            }
+        });
+
+        subscribe(EntityDamageEvent.class, (event) -> {
+            if ((event.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK || event.getCause() == EntityDamageEvent.DamageCause.ENTITY_SWEEP_ATTACK) && event instanceof EntityDamageByEntityEvent subEvent) {
+                if (subEvent.getDamager() instanceof Player player) {
+                    if (isUnlocked(player)) {
+                        return;
+                    }
+                    if (player.getInventory().getItemInMainHand().getType() == material) {
+                        event.setCancelled(true);
+                    }
+                }
             }
         });
     }
