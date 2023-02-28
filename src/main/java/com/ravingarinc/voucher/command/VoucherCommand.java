@@ -60,9 +60,14 @@ public class VoucherCommand extends BaseCommand {
                                 sender.sendMessage(ChatColor.RED + "Could not find voucher with key " + args[2]);
                                 return true;
                             }
-                            final Player player = plugin.getServer().getPlayer(args[3]);
+                            Player player = null;
+                            if (args.length > 3) {
+                                player = plugin.getServer().getPlayer(args[3]);
+                            } else if (sender instanceof Player p) {
+                                player = p;
+                            }
                             if (player == null) {
-                                sender.sendMessage(ChatColor.RED + "Could not find a player with username " + args[3]);
+                                sender.sendMessage(ChatColor.RED + "Could not find a valid player!");
                                 return true;
                             }
 
@@ -84,9 +89,14 @@ public class VoucherCommand extends BaseCommand {
                                 sender.sendMessage(ChatColor.RED + "Could not find voucher with key " + args[2]);
                                 return true;
                             }
-                            final Player player = plugin.getServer().getPlayer(args[3]);
+                            Player player = null;
+                            if (args.length > 3) {
+                                player = plugin.getServer().getPlayer(args[3]);
+                            } else if (sender instanceof Player p) {
+                                player = p;
+                            }
                             if (player == null) {
-                                sender.sendMessage(ChatColor.RED + "Could not find a player with username " + args[3]);
+                                sender.sendMessage(ChatColor.RED + "Could not find a valid player!");
                                 return true;
                             }
 
