@@ -1,5 +1,6 @@
 package com.ravingarinc.voucher.api;
 
+import com.ravingarinc.api.I;
 import com.ravingarinc.voucher.player.HolderManager;
 import com.ravingarinc.voucher.storage.VoucherSettings;
 import org.bukkit.Material;
@@ -14,6 +15,8 @@ import org.bukkit.inventory.CraftingInventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.SmithingInventory;
 
+import java.util.logging.Level;
+
 public class ItemVoucher extends Voucher {
     protected Material material;
 
@@ -22,33 +25,33 @@ public class ItemVoucher extends Voucher {
         this.material = material;
 
         subscribe(PrepareItemCraftEvent.class, (event) -> {
-            if (isUnlocked((Player) event.getViewers().get(0))) {
-                return;
-            }
             final CraftingInventory inventory = event.getInventory();
             final ItemStack result = inventory.getResult();
             if (result != null && result.getType() == material) {
+                if (isUnlocked((Player) event.getViewers().get(0))) {
+                    return;
+                }
                 inventory.setResult(null);
             }
         });
 
         subscribe(PrepareSmithingEvent.class, (event) -> {
-            if (isUnlocked((Player) event.getViewers().get(0))) {
-                return;
-            }
             final SmithingInventory inventory = event.getInventory();
             final ItemStack result = inventory.getResult();
             if (result != null && result.getType() == material) {
+                if (isUnlocked((Player) event.getViewers().get(0))) {
+                    return;
+                }
                 inventory.setResult(null);
                 event.setResult(null);
             }
         });
 
         subscribe(PlayerInteractEvent.class, (event) -> {
-            if (isUnlocked(event.getPlayer())) {
-                return;
-            }
             if (event.getMaterial() == material) {
+                if (isUnlocked(event.getPlayer())) {
+                    return;
+                }
                 event.setCancelled(true);
                 event.setUseItemInHand(Event.Result.DENY);
                 event.setUseInteractedBlock(Event.Result.DENY);
@@ -56,13 +59,14 @@ public class ItemVoucher extends Voucher {
             }
         });
 
-        subscribe(EntityDamageEvent.class, (event) -> {
-            if ((event.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK || event.getCause() == EntityDamageEvent.DamageCause.ENTITY_SWEEP_ATTACK) && event instanceof EntityDamageByEntityEvent subEvent) {
-                if (subEvent.getDamager() instanceof Player player) {
-                    if (isUnlocked(player)) {
-                        return;
-                    }
+        subscribe(EntityDamageByEntityEvent.class, (event) -> {
+            I.log(Level.WARNING, "Entity Damage Event Item!");
+            if ((event.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK || event.getCause() == EntityDamageEvent.DamageCause.ENTITY_SWEEP_ATTACK)) {
+                if (event.getDamager() instanceof Player player) {
                     if (player.getInventory().getItemInMainHand().getType() == material) {
+                        if (isUnlocked(player)) {
+                            return;
+                        }
                         event.setCancelled(true);
                     }
                 }

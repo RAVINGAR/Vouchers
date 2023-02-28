@@ -32,12 +32,12 @@ public class FarmVoucher extends Voucher {
 
         if (VoucherSettings.blockFoodMaterialCraft) {
             subscribe(PrepareItemCraftEvent.class, (event) -> {
-                if (isUnlocked((Player) event.getViewers().get(0))) {
-                    return;
-                }
                 final CraftingInventory inventory = event.getInventory();
                 final ItemStack result = inventory.getResult();
                 if (result != null && result.getType() == food) {
+                    if (isUnlocked((Player) event.getViewers().get(0))) {
+                        return;
+                    }
                     inventory.setResult(null);
                 }
             });
@@ -45,10 +45,11 @@ public class FarmVoucher extends Voucher {
 
         if (VoucherSettings.blockFoodMaterialConsume) {
             subscribe(PlayerItemConsumeEvent.class, (event) -> {
-                if (isUnlocked(event.getPlayer())) {
-                    return;
-                }
+
                 if (event.getItem().getType() == food) {
+                    if (isUnlocked(event.getPlayer())) {
+                        return;
+                    }
                     event.setCancelled(true);
                     VoucherSettings.sendDenyMessage(event.getPlayer());
                 }
@@ -56,10 +57,10 @@ public class FarmVoucher extends Voucher {
         }
 
         subscribe(PlayerInteractEvent.class, (event) -> {
-            if (isUnlocked(event.getPlayer())) {
-                return;
-            }
             if (event.getMaterial() == seed || event.getMaterial() == item) {
+                if (isUnlocked(event.getPlayer())) {
+                    return;
+                }
                 event.setCancelled(true);
                 event.setUseItemInHand(Event.Result.DENY);
                 event.setUseInteractedBlock(Event.Result.DENY);
@@ -68,10 +69,10 @@ public class FarmVoucher extends Voucher {
         });
 
         subscribe(BlockPlaceEvent.class, (event) -> {
-            if (isUnlocked(event.getPlayer())) {
-                return;
-            }
             if (event.getBlockPlaced().getType() == block) {
+                if (isUnlocked(event.getPlayer())) {
+                    return;
+                }
                 event.setCancelled(true);
                 event.setBuild(false);
                 VoucherSettings.sendDenyMessage(event.getPlayer());
@@ -79,10 +80,10 @@ public class FarmVoucher extends Voucher {
         });
 
         subscribe(BlockBreakEvent.class, (event) -> {
-            if (isUnlocked(event.getPlayer())) {
-                return;
-            }
             if (event.getBlock().getType() == block) {
+                if (isUnlocked(event.getPlayer())) {
+                    return;
+                }
                 event.setCancelled(true);
                 VoucherSettings.sendDenyMessage(event.getPlayer());
             }

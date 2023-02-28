@@ -1,12 +1,13 @@
 package com.ravingarinc.voucher.api;
 
+import com.ravingarinc.api.I;
 import com.ravingarinc.voucher.player.HolderManager;
 import com.ravingarinc.voucher.storage.VoucherSettings;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.block.BlockDispenseArmorEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -20,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.logging.Level;
 
 public class ArmourVoucher extends ItemVoucher {
     private final List<Integer> armourSlots = Arrays.asList(36, 37, 38, 39);
@@ -48,10 +50,10 @@ public class ArmourVoucher extends ItemVoucher {
         });
 
         subscribe(BlockDispenseArmorEvent.class, (event) -> {
-            if (isUnlocked((Player) event.getTargetEntity())) {
-                return;
-            }
             if (event.getItem().getType() == material) {
+                if (isUnlocked((Player) event.getTargetEntity())) {
+                    return;
+                }
                 event.setCancelled(true);
             }
         });
@@ -71,7 +73,7 @@ public class ArmourVoucher extends ItemVoucher {
             }
             if (click == ClickType.NUMBER_KEY) {
                 stack = player.getInventory().getItem(event.getHotbarButton());
-                if (stack != null && stack.getType() == material) {
+                if (stack != null && stack.getType() == material && !isUnlocked(player)) {
                     event.setResult(Event.Result.DENY);
                     event.setCancelled(true);
                 }
@@ -86,20 +88,25 @@ public class ArmourVoucher extends ItemVoucher {
             }
         });
 
-        subscribe(EntityDamageEvent.class, (event) -> {
+        subscribe(EntityDamageByEntityEvent.class, (event) -> {
+            I.log(Level.WARNING, "Entity Damage Event Armour!");
             if (!(event.getEntity() instanceof Player player)) {
                 return;
             }
+
             final long currentTime = System.currentTimeMillis();
             final long lastCheck = lastDamageCheck.computeIfAbsent(player.getUniqueId(), (p) -> currentTime);
             if (System.currentTimeMillis() > lastCheck + 7000L) {
                 lastDamageCheck.put(player.getUniqueId(), currentTime);
+                if (isUnlocked(player)) {
+                    return;
+                }
                 boolean message = false;
                 final PlayerInventory inventory = player.getInventory();
                 final ItemStack[] armour = inventory.getArmorContents();
                 for (int i = 0; i < armour.length; i++) {
                     final ItemStack piece = armour[i];
-                    if (piece != null && piece.getType() == material && !isUnlocked(player)) {
+                    if (piece != null && piece.getType() == material) {
                         message = true;
                         inventory.setItem(armourSlots.get(i), null);
                         final int empty = inventory.firstEmpty();

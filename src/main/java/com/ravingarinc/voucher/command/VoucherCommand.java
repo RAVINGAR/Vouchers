@@ -101,7 +101,7 @@ public class VoucherCommand extends BaseCommand {
                             }
 
                             manager.getHolder(player).lock(args[2]);
-                            sender.sendMessage(ChatColor.GREEN + "You have unlocked the voucher '" + args[2] + "' for " + player.getName());
+                            sender.sendMessage(ChatColor.GREEN + "You have locked the voucher '" + args[2] + "' for " + player.getName());
                             return true;
                         }).buildTabCompletions((sender, args) -> {
                     if (args.length == 4) {

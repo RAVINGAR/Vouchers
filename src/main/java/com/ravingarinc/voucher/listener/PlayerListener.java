@@ -14,10 +14,11 @@ import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDispenseArmorEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
@@ -61,8 +62,8 @@ public class PlayerListener extends ModuleListener {
         manager.saveHolder(manager.removeHolder(event.getPlayer()));
     }
 
-    @EventHandler
-    public void onEntityDamageEvent(final EntityDamageEvent event) {
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onEntityDamageEvent(final EntityDamageByEntityEvent event) {
         tracker.handleEvent(event);
     }
 
