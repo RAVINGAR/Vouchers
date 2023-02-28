@@ -1,6 +1,7 @@
 package com.ravingarinc.voucher.storage;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 public class VoucherSettings {
@@ -25,6 +26,9 @@ public class VoucherSettings {
     public static boolean preventBlockMining = true;
     public static boolean blockFoodMaterialCraft = false;
     public static boolean blockFoodMaterialConsume = false;
+
+    public static Material border1 = Material.BLACK_STAINED_GLASS_PANE;
+    public static Material border2 = Material.GRAY_STAINED_GLASS_PANE;
 
     public static void sendDenyMessage(final Player player) {
         if (!denyMessage.isEmpty()) {

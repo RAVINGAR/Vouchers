@@ -99,6 +99,17 @@ public class ConfigManager extends Module {
             wrap("prevent-block-mining", child::getBoolean).ifPresent(v -> VoucherSettings.preventBlockMining = v);
             wrap("block-food-material-craft", child::getBoolean).ifPresent(v -> VoucherSettings.blockFoodMaterialCraft = v);
             wrap("block-food-material-consume", child::getBoolean).ifPresent(v -> VoucherSettings.blockFoodMaterialConsume = v);
+            wrap("gui-border-material1", child::getString).ifPresent(v -> VoucherSettings.border1 = Material.matchMaterial(v));
+            wrap("gui-border-material2", child::getString).ifPresent(v -> VoucherSettings.border2 = Material.matchMaterial(v));
+
+            if (VoucherSettings.border1 == null) {
+                I.log(Level.WARNING, "Could not match material for gui-border-material1");
+                VoucherSettings.border1 = Material.BLACK_STAINED_GLASS_PANE;
+            }
+            if (VoucherSettings.border2 == null) {
+                I.log(Level.WARNING, "Could not match material for gui-border-material2");
+                VoucherSettings.border2 = Material.GRAY_STAINED_GLASS_PANE;
+            }
         });
     }
 

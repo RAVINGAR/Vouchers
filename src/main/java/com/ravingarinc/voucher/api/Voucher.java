@@ -54,12 +54,12 @@ public abstract class Voucher {
     }
 
     public String getDisplayName() {
-        return fullyCapitalise(key);
+        return VoucherSettings.voucherNameFormat.replace("{item}", fullyCapitalise(key));
     }
 
     public String getLore() {
         if (lore == null) {
-            final String format = getDisplayName();
+            final String format = fullyCapitalise(key);
             final StringBuilder lore = new StringBuilder();
             final Iterator<String> iterator = Arrays.stream(VoucherSettings.voucherLoreFormat).iterator();
             while (iterator.hasNext()) {

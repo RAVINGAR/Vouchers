@@ -31,12 +31,18 @@ public class VoucherCommand extends BaseCommand {
                         sender.sendMessage(ChatColor.RED + "Could not find voucher with key " + args[2]);
                         return true;
                     }
-                    final Player player = plugin.getServer().getPlayer(args[3]);
+                    Player player = null;
+                    if (args.length > 3) {
+                        player = plugin.getServer().getPlayer(args[3]);
+                    } else if (sender instanceof Player p) {
+                        player = p;
+                    }
                     if (player == null) {
-                        sender.sendMessage(ChatColor.RED + "Could not find a player with username " + args[3]);
+                        sender.sendMessage(ChatColor.RED + "Could not find a valid player!");
                         return true;
                     }
-                    player.getInventory().addItem(voucher.getItem()).values().forEach(i -> player.getWorld().dropItemNaturally(player.getLocation(), i));
+                    final Player finalPlayer = player;
+                    player.getInventory().addItem(voucher.getItem()).values().forEach(i -> finalPlayer.getWorld().dropItemNaturally(finalPlayer.getLocation(), i));
                     sender.sendMessage(ChatColor.GREEN + "You have given the voucher '" + args[2] + "' to " + args[3]);
                     return true;
                 }).buildTabCompletions((sender, args) -> {

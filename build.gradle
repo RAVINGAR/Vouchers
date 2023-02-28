@@ -1,0 +1,184 @@
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+
+plugins {
+    id 'java-library'
+    id 'pmd'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
+    id 'net.minecrell.plugin-yml.bukkit' version '0.5.1'
+}
+
+group = 'com.ravingarinc.voucher'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    gradlePluginPortal()
+    mavenCentral()
+
+    maven {
+        name = 'spigotmc-repo'
+        url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+    }
+    maven {
+        name = 'sonatype'
+        url = 'https://oss.sonatype.org/content/groups/public/'
+    }
+
+    maven {
+        name 'phoenix-repo'
+        url 'https://nexus.phoenixdvpt.fr/repository/maven-public/'
+        content {
+            includeGroup 'io.lumine'
+            includeGroup 'net.Indyuce'
+        }
+    }
+    maven {
+        name 'dmulloy2-repo'
+        url 'https://repo.dmulloy2.net/repository/public/'
+        content {
+            includeGroup 'com.comphenix.protocol'
+        }
+    }
+    maven {
+        name 'inventive-repo'
+        url 'https://repo.inventivetalent.org/repository/public/'
+        content {
+            includeGroup 'org.mineskin'
+        }
+    }
+
+    maven {
+        name 'jitpack'
+        url "https://jitpack.io"
+    }
+}
+
+dependencies {
+    implementation 'com.github.RAVINGAR.RavinAPI:module:1.1.7'
+    implementation 'com.github.RAVINGAR.RavinAPI:gui:1.1.8'
+    implementation 'com.github.RAVINGAR.RavinAPI:common:1.1.7'
+    implementation 'org.jetbrains:annotations:23.1.0'
+    compileOnly 'org.spigotmc:spigot-api:1.19.2-R0.1-SNAPSHOT'
+}
+
+shadowJar {
+    archiveBaseName.set('Vouchers')
+    archiveClassifier.set('')
+    archiveVersion.set('')
+    relocate 'com.ravingarinc.api', 'com.ravingarinc.voucher.lib.api'
+}
+
+artifacts {
+    archives shadowJar
+}
+
+assemble.dependsOn shadowJar
+
+def targetJavaVersion = 17
+java {
+    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+    if (JavaVersion.current() < javaVersion) {
+        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
+        options.release = targetJavaVersion
+    }
+}
+
+tasks.register("copyToDev", Copy) {
+    from shadowJar
+    into project.layout.projectDirectory.dir("../../Desktop/Programming/Server/plugins")
+    //into "E:/Documents/Workspace/Servers/1.18.2-TEST/plugins/"
+}
+
+assemble.finalizedBy copyToDev
+
+javadoc {
+    options.encoding 'UTF-8'
+    options.charSet 'UTF-8'
+    options.jFlags('-Xms256m', '-Xmx512m')
+    options.addStringOption('Xdoclint:none', '-quiet')
+    options.links(
+            'https://hub.spigotmc.org/javadocs/spigot/',
+            'http://google.github.io/guava/releases/17.0/api/docs/',
+            'https://ci.dmulloy2.net/job/ProtocolLib/javadoc/'
+    )
+}
+
+pmd {
+    consoleOutput = true
+    toolVersion = '6.41.0'
+    rulesMinimumPriority = 5
+    ruleSets = []
+    ruleSetFiles = files('pmd-rules.xml')
+}
+
+int nTests = 0
+
+test {
+    useJUnitPlatform()
+    // Ensure testing is never 'up-to-date' (in Gradle-speak), which means it can never be skipped,
+    // as it would otherwise be.
+    outputs.upToDateWhen { false }
+
+    // Ensure we get all the useful test output.
+    testLogging {
+        events 'failed', 'passed', 'skipped'
+        showExceptions true
+        showCauses true
+        showStackTraces true
+        showStandardStreams true
+        exceptionFormat TestExceptionFormat.FULL
+    }
+    // Count the number of tests actually executed, for later...
+    afterTest {
+        nTests += 1
+    }
+}
+
+// This ensures we actually get an error message if there are no tests found. Otherwise, Gradle
+// wouldn't consider this an error, and will simply report "BUILD SUCCESSFUL".
+task(verifyTestExistence) {
+    dependsOn test
+    doLast {
+        if(nTests == 0)
+        {
+            println("No tests found!\nMake sure your test code is in the same directory as 'unittest', "
+                    + "and uses '@RunWith' and '@Test' as required by JUnit.")
+            throw new InvalidUserDataException("No tests found")
+        }
+    }
+}
+
+bukkit {
+    // Default values can be overridden if needed
+    // name = 'TestPlugin'
+    // version = '1.0'
+    // description = 'This is a test plugin'
+    // website = 'https://example.com'
+    // author = 'Notch'
+
+    name = 'Vouchers'
+    version = project.version
+    description = 'Voucher plugin to restrict recipes and other features.'
+    main = 'com.ravingarinc.voucher.Vouchers'
+
+    // API version (should be set for 1.13+)
+    apiVersion = '1.18'
+
+    // Other possible properties from plugin.yml (optional)
+    author = 'RAVINGAR'
+    defaultPermission = 'TRUE' // 'TRUE', 'FALSE', 'OP' or 'NOT_OP'
+
+    commands {
+        voucher {
+            aliases = ["v", "voucher"]
+            description = 'Vouchers Admin Command'
+            usage = 'Unknown argument. Try /voucher ?'
+        }
+    }
+}

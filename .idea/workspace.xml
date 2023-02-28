@@ -4,38 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="717a9acc-0232-48f8-b3e5-8646944292ca" name="Changes" comment="Finalisations of main code!">
-      <change afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules/Vouchers.main.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/saveactions_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/Vouchers.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/api/ArmourVoucher.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/api/BlockVoucher.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/api/FarmVoucher.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/api/ItemVoucher.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/api/Subscriber.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/api/Voucher.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/command/VoucherCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/command/sub/ViewCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/listener/PlayerListener.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/player/Holder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/player/HolderManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/storage/ConfigFile.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/storage/ConfigManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/storage/VoucherSettings.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/storage/sql/Database.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/storage/sql/Schema.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/storage/sql/VoucherDatabase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/tracker/VoucherTracker.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/config.yml" afterDir="false" />
+    <list default="true" id="717a9acc-0232-48f8-b3e5-8646944292ca" name="Changes" comment="Main changes to main code with all features implemented">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/api/Voucher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/api/Voucher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/command/VoucherCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/command/VoucherCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/command/sub/ViewCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/command/sub/ViewCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/storage/ConfigManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/storage/ConfigManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/storage/VoucherSettings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/storage/VoucherSettings.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/config.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,12 +27,26 @@
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
       <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
         <projects_view>
           <tree_state>
             <expand>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="Vouchers" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="Vouchers" type="f1a62948:ProjectNode" />
+                <item name="Dependencies" type="6de06a37:ExternalSystemViewDefaultContributor$MyDependenciesNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="Vouchers" type="f1a62948:ProjectNode" />
+                <item name="Dependencies" type="6de06a37:ExternalSystemViewDefaultContributor$MyDependenciesNode" />
+                <item name="compileClasspath" type="62daadca:ExternalSystemViewDefaultContributor$DependencyScopeExternalSystemNode" />
               </path>
             </expand>
             <select />
@@ -93,6 +84,9 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Users/aue/IdeaProjects/VoucherPlugin/src/main/java/com/ravingarinc/voucher/storage/sql&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
   }
 }</component>
@@ -117,7 +111,7 @@
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
+        <option name="scriptParameters" value="--refresh-dependencies" />
         <option name="taskDescriptions">
           <list />
         </option>
@@ -144,6 +138,14 @@
       <option name="presentableId" value="Default" />
       <updated>1677151177809</updated>
     </task>
+    <task id="LOCAL-00001" summary="Main changes to main code with all features implemented">
+      <created>1677469327428</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1677469327428</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -159,6 +161,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Finalisations of main code!" />
-    <option name="LAST_COMMIT_MESSAGE" value="Finalisations of main code!" />
+    <MESSAGE value="Main changes to main code with all features implemented" />
+    <option name="LAST_COMMIT_MESSAGE" value="Main changes to main code with all features implemented" />
   </component>
 </project>
