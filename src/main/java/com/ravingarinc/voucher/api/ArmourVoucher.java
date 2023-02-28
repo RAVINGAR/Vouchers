@@ -76,6 +76,7 @@ public class ArmourVoucher extends ItemVoucher {
                     event.setCancelled(true);
                 }
             }
+
             stack = event.getCursor();
             if (stack != null && stack.getType() == material && !isUnlocked(player)) {
                 if (slot == InventoryType.SlotType.ARMOR && (action == InventoryAction.PLACE_ALL || action == InventoryAction.PLACE_ONE)) {

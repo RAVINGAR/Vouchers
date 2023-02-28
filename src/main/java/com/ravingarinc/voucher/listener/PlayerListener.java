@@ -29,7 +29,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
 public class PlayerListener extends ModuleListener {
-    private static final long CHECK_INTERVAL = 6000L;
 
     private VoucherTracker tracker;
 
