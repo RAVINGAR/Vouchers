@@ -5,6 +5,7 @@ import com.ravingarinc.voucher.storage.VoucherSettings;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+import org.bukkit.event.block.BlockDispenseArmorEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryAction;
@@ -46,6 +47,15 @@ public class ArmourVoucher extends ItemVoucher {
             }
         });
 
+        subscribe(BlockDispenseArmorEvent.class, (event) -> {
+            if (isUnlocked((Player) event.getTargetEntity())) {
+                return;
+            }
+            if (event.getItem().getType() == material) {
+                event.setCancelled(true);
+            }
+        });
+
         subscribe(InventoryClickEvent.class, (event) -> {
             final InventoryAction action = event.getAction();
             final InventoryType.SlotType slot = event.getSlotType();
@@ -55,6 +65,13 @@ public class ArmourVoucher extends ItemVoucher {
             ItemStack stack = event.getCurrentItem();
             if (stack != null && stack.getType() == material && !isUnlocked(player)) {
                 if (action == InventoryAction.MOVE_TO_OTHER_INVENTORY && (click == ClickType.SHIFT_LEFT || click == ClickType.SHIFT_RIGHT)) {
+                    event.setResult(Event.Result.DENY);
+                    event.setCancelled(true);
+                }
+            }
+            if (click == ClickType.NUMBER_KEY) {
+                stack = player.getInventory().getItem(event.getHotbarButton());
+                if (stack != null && stack.getType() == material) {
                     event.setResult(Event.Result.DENY);
                     event.setCancelled(true);
                 }
@@ -72,7 +89,7 @@ public class ArmourVoucher extends ItemVoucher {
             final Player player = (Player) event.getEntity(); //assert this is a player
             final long currentTime = System.currentTimeMillis();
             final long lastCheck = lastDamageCheck.computeIfAbsent(player.getUniqueId(), (p) -> currentTime);
-            if (System.currentTimeMillis() > lastCheck + 6000L) {
+            if (System.currentTimeMillis() > lastCheck + 7000L) {
                 lastDamageCheck.put(player.getUniqueId(), currentTime);
                 boolean message = false;
                 final PlayerInventory inventory = player.getInventory();

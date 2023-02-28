@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="717a9acc-0232-48f8-b3e5-8646944292ca" name="Changes" comment="Finalisesationsa" />
+    <list default="true" id="717a9acc-0232-48f8-b3e5-8646944292ca" name="Changes" comment="Changes for the damage" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -185,7 +185,21 @@
       <option name="project" value="LOCAL" />
       <updated>1677559541500</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Added check for damage.">
+      <created>1677561120929</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1677561120929</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Changes for the damage">
+      <created>1677561303958</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1677561303958</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -208,6 +222,8 @@
     <MESSAGE value="Final fixes to PMD." />
     <MESSAGE value="Fixes to args length related things" />
     <MESSAGE value="Finalisesationsa" />
-    <option name="LAST_COMMIT_MESSAGE" value="Finalisesationsa" />
+    <MESSAGE value="Added check for damage." />
+    <MESSAGE value="Changes for the damage" />
+    <option name="LAST_COMMIT_MESSAGE" value="Changes for the damage" />
   </component>
 </project>
