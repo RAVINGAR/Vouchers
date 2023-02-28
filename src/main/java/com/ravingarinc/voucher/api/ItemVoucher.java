@@ -1,6 +1,5 @@
 package com.ravingarinc.voucher.api;
 
-import com.ravingarinc.api.I;
 import com.ravingarinc.voucher.player.HolderManager;
 import com.ravingarinc.voucher.storage.VoucherSettings;
 import org.bukkit.Material;
@@ -14,8 +13,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.CraftingInventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.SmithingInventory;
-
-import java.util.logging.Level;
 
 public class ItemVoucher extends Voucher {
     protected Material material;
@@ -60,7 +57,6 @@ public class ItemVoucher extends Voucher {
         });
 
         subscribe(EntityDamageByEntityEvent.class, (event) -> {
-            I.log(Level.WARNING, "Entity Damage Event Item!");
             if ((event.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK || event.getCause() == EntityDamageEvent.DamageCause.ENTITY_SWEEP_ATTACK)) {
                 if (event.getDamager() instanceof Player player) {
                     if (player.getInventory().getItemInMainHand().getType() == material) {

@@ -1,6 +1,5 @@
 package com.ravingarinc.voucher.api;
 
-import com.ravingarinc.api.I;
 import com.ravingarinc.voucher.player.HolderManager;
 import com.ravingarinc.voucher.storage.VoucherSettings;
 import org.bukkit.Material;
@@ -21,7 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.logging.Level;
 
 public class ArmourVoucher extends ItemVoucher {
     private final List<Integer> armourSlots = Arrays.asList(36, 37, 38, 39);
@@ -89,7 +87,6 @@ public class ArmourVoucher extends ItemVoucher {
         });
 
         subscribe(EntityDamageByEntityEvent.class, (event) -> {
-            I.log(Level.WARNING, "Entity Damage Event Armour!");
             if (!(event.getEntity() instanceof Player player)) {
                 return;
             }
