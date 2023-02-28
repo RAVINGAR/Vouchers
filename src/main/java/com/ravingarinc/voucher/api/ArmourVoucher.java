@@ -15,13 +15,20 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public class ArmourVoucher extends ItemVoucher {
     private final List<Integer> armourSlots = Arrays.asList(36, 37, 38, 39);
 
+    private final Map<UUID, Long> lastDamageCheck;
+
     public ArmourVoucher(final Material material, final HolderManager manager) {
         super(material, manager);
+
+        lastDamageCheck = new HashMap<>();
 
         subscribe(InventoryDragEvent.class, (event) -> {
             if (event.getRawSlots().isEmpty()) {
@@ -63,25 +70,30 @@ public class ArmourVoucher extends ItemVoucher {
 
         subscribe(EntityDamageEvent.class, (event) -> {
             final Player player = (Player) event.getEntity(); //assert this is a player
-            boolean message = false;
-            final PlayerInventory inventory = player.getInventory();
-            final ItemStack[] armour = inventory.getArmorContents();
-            for (int i = 0; i < armour.length; i++) {
-                final ItemStack piece = armour[i];
-                if (piece != null && piece.getType() == material && !isUnlocked(player)) {
-                    message = true;
-                    inventory.setItem(armourSlots.get(i), null);
-                    final int empty = inventory.firstEmpty();
-                    if (empty == -1) {
-                        player.getWorld().dropItemNaturally(player.getLocation(), piece);
-                    } else {
-                        inventory.setItem(empty, piece);
+            final long currentTime = System.currentTimeMillis();
+            final long lastCheck = lastDamageCheck.computeIfAbsent(player.getUniqueId(), (p) -> currentTime);
+            if (System.currentTimeMillis() > lastCheck + 6000L) {
+                lastDamageCheck.put(player.getUniqueId(), currentTime);
+                boolean message = false;
+                final PlayerInventory inventory = player.getInventory();
+                final ItemStack[] armour = inventory.getArmorContents();
+                for (int i = 0; i < armour.length; i++) {
+                    final ItemStack piece = armour[i];
+                    if (piece != null && piece.getType() == material && !isUnlocked(player)) {
+                        message = true;
+                        inventory.setItem(armourSlots.get(i), null);
+                        final int empty = inventory.firstEmpty();
+                        if (empty == -1) {
+                            player.getWorld().dropItemNaturally(player.getLocation(), piece);
+                        } else {
+                            inventory.setItem(empty, piece);
+                        }
                     }
                 }
-            }
 
-            if (message) {
-                VoucherSettings.sendDenyMessage(player);
+                if (message) {
+                    VoucherSettings.sendDenyMessage(player);
+                }
             }
         });
     }

@@ -28,20 +28,15 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-
 public class PlayerListener extends ModuleListener {
     private static final long CHECK_INTERVAL = 6000L;
-    private final Map<UUID, Long> lastDamageCheck;
+
     private VoucherTracker tracker;
 
     private HolderManager manager;
 
     public PlayerListener(final RavinPlugin plugin) {
         super(PlayerListener.class, plugin, VoucherTracker.class);
-        lastDamageCheck = new HashMap<>();
     }
 
     @Override
@@ -54,7 +49,6 @@ public class PlayerListener extends ModuleListener {
     @Override
     public void cancel() {
         super.cancel();
-        lastDamageCheck.clear();
     }
 
     @EventHandler
@@ -69,13 +63,8 @@ public class PlayerListener extends ModuleListener {
 
     @EventHandler
     public void onEntityDamageEvent(final EntityDamageEvent event) {
-        if (event.getEntity() instanceof Player player) {
-            final long currentTime = System.currentTimeMillis();
-            final long lastCheck = lastDamageCheck.computeIfAbsent(player.getUniqueId(), (p) -> currentTime);
-            if (System.currentTimeMillis() > lastCheck + CHECK_INTERVAL) {
-                tracker.handleEvent(event);
-                lastDamageCheck.put(player.getUniqueId(), currentTime);
-            }
+        if (event.getEntity() instanceof Player) {
+            tracker.handleEvent(event);
         }
     }
 
