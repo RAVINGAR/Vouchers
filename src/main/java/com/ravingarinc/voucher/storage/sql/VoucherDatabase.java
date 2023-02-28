@@ -24,7 +24,7 @@ public class VoucherDatabase extends Database {
     public void load() throws ModuleLoadException {
         super.load();
         try {
-            execute(Schema.Voucher.createTable);
+            execute(Schema.Voucher.CREATE_TABLE);
         } catch (final SQLException exception) {
             I.log(Level.WARNING, "Encountered issue creating tables for database!", exception);
         }
@@ -34,7 +34,7 @@ public class VoucherDatabase extends Database {
 
 
     public Optional<Holder> loadHolder(final Player player) {
-        return Optional.ofNullable(query(Schema.Voucher.select, (statement) -> {
+        return Optional.ofNullable(query(Schema.Voucher.SELECT, (statement) -> {
             try {
                 statement.setString(1, player.getUniqueId().toString());
             } catch (final SQLException exception) {
@@ -54,7 +54,7 @@ public class VoucherDatabase extends Database {
                         }
                     }
                 } else {
-                    prepareStatement(Schema.Voucher.insert, (statement) -> {
+                    prepareStatement(Schema.Voucher.INSERT, (statement) -> {
                         try {
                             statement.setString(1, player.getUniqueId().toString());
                             statement.setString(2, "");
@@ -72,7 +72,7 @@ public class VoucherDatabase extends Database {
     }
 
     public void saveHolder(final Holder holder) {
-        prepareStatement(Schema.Voucher.update, (statement) -> {
+        prepareStatement(Schema.Voucher.UPDATE, (statement) -> {
             try {
                 final Iterator<String> iterator = holder.getVoucherKeys().iterator();
                 final StringBuilder builder = new StringBuilder();
@@ -88,5 +88,10 @@ public class VoucherDatabase extends Database {
                 I.log(Level.WARNING, "Encountered issue saving holder!", exception);
             }
         });
+    }
+
+    @Override
+    public void cancel() {
+        // do nothing
     }
 }

@@ -48,11 +48,6 @@ public abstract class Database extends Module {
         }
     }
 
-    @Override
-    public void cancel() {
-        // do nothing
-    }
-
     /**
      * Prepare a statement for the database and consume it. This can be used for insert/update of data
      *
