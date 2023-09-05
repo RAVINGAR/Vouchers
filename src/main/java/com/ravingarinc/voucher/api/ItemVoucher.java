@@ -1,5 +1,6 @@
 package com.ravingarinc.voucher.api;
 
+import com.ravingarinc.api.I;
 import com.ravingarinc.voucher.player.HolderManager;
 import com.ravingarinc.voucher.storage.VoucherSettings;
 import org.bukkit.Material;
@@ -13,6 +14,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.CraftingInventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.SmithingInventory;
+
+import java.util.logging.Level;
 
 public class ItemVoucher extends Voucher {
     protected Material material;
@@ -46,6 +49,7 @@ public class ItemVoucher extends Voucher {
 
         subscribe(PlayerInteractEvent.class, (event) -> {
             if (event.getMaterial() == material) {
+                I.log(Level.WARNING,"DEBUG -> Handling Interact Event for Item");
                 if (isUnlocked(event.getPlayer())) {
                     return;
                 }

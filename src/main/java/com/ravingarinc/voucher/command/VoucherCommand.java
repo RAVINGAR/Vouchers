@@ -3,7 +3,6 @@ package com.ravingarinc.voucher.command;
 import com.ravingarinc.api.command.BaseCommand;
 import com.ravingarinc.api.module.RavinPlugin;
 import com.ravingarinc.voucher.api.Voucher;
-import com.ravingarinc.voucher.command.sub.ViewCommand;
 import com.ravingarinc.voucher.player.HolderManager;
 import com.ravingarinc.voucher.tracker.VoucherTracker;
 import org.bukkit.ChatColor;
@@ -13,7 +12,7 @@ import java.util.ArrayList;
 
 public class VoucherCommand extends BaseCommand {
     public VoucherCommand(final RavinPlugin plugin) {
-        super("voucher", null);
+        super(plugin, "voucher", null);
 
         final HolderManager manager = plugin.getModule(HolderManager.class);
         final VoucherTracker tracker = plugin.getModule(VoucherTracker.class);
@@ -42,7 +41,7 @@ public class VoucherCommand extends BaseCommand {
                         return true;
                     }
                     final Player finalPlayer = player;
-                    player.getInventory().addItem(voucher.getItem()).values().forEach(i -> finalPlayer.getWorld().dropItemNaturally(finalPlayer.getLocation(), i));
+                    player.getInventory().addItem(voucher.getItem(plugin)).values().forEach(i -> finalPlayer.getWorld().dropItemNaturally(finalPlayer.getLocation(), i));
                     sender.sendMessage(ChatColor.GREEN + "You have given the voucher '" + args[2] + "' to " + player.getName());
                     return true;
                 }).buildTabCompletions((sender, args) -> {

@@ -12,6 +12,7 @@ version = '1.0-SNAPSHOT'
 
 repositories {
     gradlePluginPortal()
+    mavenLocal()
     mavenCentral()
 
     maven {
@@ -53,11 +54,11 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.RAVINGAR.RavinAPI:module:1.1.8'
-    implementation 'com.github.RAVINGAR.RavinAPI:gui:1.1.8'
-    implementation 'com.github.RAVINGAR.RavinAPI:common:1.1.8'
+    implementation 'com.ravingarinc.api:module:1.4.1'
+    implementation 'com.ravingarinc.api:gui:1.4.1'
+    implementation 'com.ravingarinc.api:common:1.4.1'
     implementation 'org.jetbrains:annotations:23.1.0'
-    compileOnly 'org.spigotmc:spigot-api:1.19.2-R0.1-SNAPSHOT'
+    compileOnly 'org.spigotmc:spigot-api:1.19.4-R0.1-SNAPSHOT'
 }
 
 shadowJar {

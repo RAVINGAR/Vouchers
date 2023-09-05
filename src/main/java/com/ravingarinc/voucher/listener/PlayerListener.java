@@ -13,6 +13,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.Action;
@@ -67,22 +68,22 @@ public class PlayerListener extends ModuleListener {
         tracker.handleEvent(event);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOW)
     public void onDispenser(final BlockDispenseArmorEvent event) {
         tracker.handleEvent(event);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOW)
     public void onBreakBlockEvent(final BlockBreakEvent event) {
         tracker.handleEvent(event);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOW)
     public void onPrepareItemCraftEvent(final PrepareItemCraftEvent event) {
         tracker.handleEvent(event);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerInteractEvent(final PlayerInteractEvent event) {
         if (handleVoucherClick(event)) {
             tracker.handleEvent(event);
@@ -107,11 +108,15 @@ public class PlayerListener extends ModuleListener {
             final Holder holder = manager.getHolder(player);
             if (holder.isUnlocked(key)) {
                 player.sendMessage(ChatColor.RED + "You have already unlocked this voucher!");
+                event.setCancelled(true);
+                event.setUseItemInHand(Event.Result.DENY);
                 return false;
             }
             final Voucher voucher = tracker.getVoucher(key);
             if (voucher == null) {
                 player.sendMessage(ChatColor.RED + "This voucher is no longer valid!");
+                event.setCancelled(true);
+                event.setUseItemInHand(Event.Result.DENY);
                 return false;
             }
 
@@ -119,6 +124,8 @@ public class PlayerListener extends ModuleListener {
             player.sendMessage(ChatColor.GREEN + "You unlocked the " + voucher.getDisplayName());
             player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS, 0.7F, 1.0F);
             player.getInventory().setItemInMainHand(null);
+            event.setCancelled(true);
+            event.setUseItemInHand(Event.Result.DENY);
             return false;
         }
         return true;

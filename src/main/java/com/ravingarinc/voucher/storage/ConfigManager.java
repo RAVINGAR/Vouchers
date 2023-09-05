@@ -33,7 +33,7 @@ public class ConfigManager extends Module {
     }
 
     @Override
-    protected void load() {
+    public void load() {
         final VoucherTracker tracker = plugin.getModule(VoucherTracker.class);
         final HolderManager manager = plugin.getModule(HolderManager.class);
 

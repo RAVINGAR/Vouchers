@@ -1,8 +1,10 @@
 package com.ravingarinc.voucher.api;
 
+import com.ravingarinc.api.module.RavinPlugin;
 import com.ravingarinc.voucher.Vouchers;
 import com.ravingarinc.voucher.player.HolderManager;
 import com.ravingarinc.voucher.storage.VoucherSettings;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -73,15 +75,15 @@ public class Voucher {
         return lore;
     }
 
-    public ItemStack getItem() {
+    public ItemStack getItem(RavinPlugin plugin) {
         final ItemStack stack = new ItemStack(Material.PAPER);
         ItemMeta meta = stack.getItemMeta();
         if (meta == null) {
-            meta = Vouchers.instance.getServer().getItemFactory().getItemMeta(getIcon());
+            meta = plugin.getServer().getItemFactory().getItemMeta(getIcon());
         }
         meta.setDisplayName(getDisplayName());
         meta.setLore(Arrays.stream(getLore().split("\n")).toList());
-        meta.getPersistentDataContainer().set(new NamespacedKey(Vouchers.instance, "voucher_id"), PersistentDataType.STRING, key);
+        meta.getPersistentDataContainer().set(new NamespacedKey(plugin, "voucher_id"), PersistentDataType.STRING, key);
         stack.setItemMeta(meta);
         return stack;
     }

@@ -22,9 +22,8 @@ public class HolderManager extends Module {
     }
 
     @Override
-    protected void load() throws ModuleLoadException {
+    public void load() {
         database = plugin.getModule(VoucherDatabase.class);
-
         for (final Player player : plugin.getServer().getOnlinePlayers()) {
             loadHolder(player);
         }
@@ -32,7 +31,10 @@ public class HolderManager extends Module {
 
     @Override
     public void cancel() {
-        holders.values().forEach(holder -> database.saveHolder(holder));
+        holders.values().forEach(holder -> {
+            holder.dispose();
+            database.saveHolder(holder);
+        });
         holders.clear();
     }
 

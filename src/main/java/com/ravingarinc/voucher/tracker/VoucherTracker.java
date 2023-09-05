@@ -24,7 +24,7 @@ public class VoucherTracker extends Module {
     }
 
     @Override
-    protected void load() throws ModuleLoadException {
+    public void load() {
 
     }
 
