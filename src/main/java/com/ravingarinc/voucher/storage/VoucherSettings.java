@@ -5,7 +5,8 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 public class VoucherSettings {
-    public static String voucherNameFormat = ChatColor.GOLD + "Voucher | {item}";
+    public static String voucherNameFormat = ChatColor.GOLD + "{item} Voucher";
+    public static String voucherNameFormatLocked = ChatColor.DARK_GRAY + "{item} Voucher";
     public static String[] voucherLoreFormat = new String[]{
             ChatColor.GRAY + "Grants the ability to craft",
             ChatColor.GRAY + "and use " + ChatColor.DARK_GRAY + "{item}"

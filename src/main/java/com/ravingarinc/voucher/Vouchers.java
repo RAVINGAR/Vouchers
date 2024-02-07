@@ -1,7 +1,5 @@
 package com.ravingarinc.voucher;
 
-import com.ravingarinc.api.gui.builder.GuiProvider;
-import com.ravingarinc.api.module.RavinPlugin;
 import com.ravingarinc.api.module.RavinPluginJava;
 import com.ravingarinc.voucher.command.VoucherCommand;
 import com.ravingarinc.voucher.listener.PlayerListener;

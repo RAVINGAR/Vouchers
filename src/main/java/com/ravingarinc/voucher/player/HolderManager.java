@@ -1,7 +1,6 @@
 package com.ravingarinc.voucher.player;
 
 import com.ravingarinc.api.module.Module;
-import com.ravingarinc.api.module.ModuleLoadException;
 import com.ravingarinc.api.module.RavinPlugin;
 import com.ravingarinc.voucher.storage.sql.VoucherDatabase;
 import org.bukkit.entity.Player;

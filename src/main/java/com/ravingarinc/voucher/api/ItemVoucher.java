@@ -1,6 +1,6 @@
 package com.ravingarinc.voucher.api;
 
-import com.ravingarinc.api.I;
+import com.ravingarinc.voucher.item.ItemType;
 import com.ravingarinc.voucher.player.HolderManager;
 import com.ravingarinc.voucher.storage.VoucherSettings;
 import org.bukkit.Material;
@@ -15,19 +15,20 @@ import org.bukkit.inventory.CraftingInventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.SmithingInventory;
 
-import java.util.logging.Level;
+import java.util.Arrays;
+import java.util.Iterator;
 
 public class ItemVoucher extends Voucher {
-    protected Material material;
+    protected ItemType type;
 
-    public ItemVoucher(final Material material, final HolderManager manager) {
-        super(material.name().toLowerCase(), manager);
-        this.material = material;
+    public ItemVoucher(final ItemType type, final HolderManager manager) {
+        super(type.getKey(), manager);
+        this.type = type;
 
         subscribe(PrepareItemCraftEvent.class, (event) -> {
             final CraftingInventory inventory = event.getInventory();
             final ItemStack result = inventory.getResult();
-            if (result != null && result.getType() == material) {
+            if (result != null && type.isSameAs(result)) {
                 if (isUnlocked((Player) event.getViewers().get(0))) {
                     return;
                 }
@@ -38,7 +39,7 @@ public class ItemVoucher extends Voucher {
         subscribe(PrepareSmithingEvent.class, (event) -> {
             final SmithingInventory inventory = event.getInventory();
             final ItemStack result = inventory.getResult();
-            if (result != null && result.getType() == material) {
+            if (result != null && type.isSameAs(result)) {
                 if (isUnlocked((Player) event.getViewers().get(0))) {
                     return;
                 }
@@ -48,8 +49,7 @@ public class ItemVoucher extends Voucher {
         });
 
         subscribe(PlayerInteractEvent.class, (event) -> {
-            if (event.getMaterial() == material) {
-                I.log(Level.WARNING,"DEBUG -> Handling Interact Event for Item");
+            if (type.isSameAs(event.getItem())) {
                 if (isUnlocked(event.getPlayer())) {
                     return;
                 }
@@ -63,7 +63,7 @@ public class ItemVoucher extends Voucher {
         subscribe(EntityDamageByEntityEvent.class, (event) -> {
             if ((event.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK || event.getCause() == EntityDamageEvent.DamageCause.ENTITY_SWEEP_ATTACK)) {
                 if (event.getDamager() instanceof Player player) {
-                    if (player.getInventory().getItemInMainHand().getType() == material) {
+                    if (type.isSameAs(player.getInventory().getItemInMainHand())) {
                         if (isUnlocked(player)) {
                             return;
                         }
@@ -72,5 +72,34 @@ public class ItemVoucher extends Voucher {
                 }
             }
         });
+    }
+
+    @Override
+    public String getItemDisplayName() {
+        return type.getDisplayName();
+    }
+
+    @Override
+    public Material getIcon() {
+        return type.getMaterial();
+    }
+
+    @Override
+    public String getLore() {
+        if (lore == null) {
+            final String format = fullyCapitalise(getItemDisplayName());
+            final StringBuilder lore = new StringBuilder();
+            final Iterator<String> iterator = Arrays.stream(VoucherSettings.voucherLoreFormat).iterator();
+            while (iterator.hasNext()) {
+                lore.append(iterator.next()
+                        .replace("{item}", format)
+                        .replace("{tier}", type.getTier()));
+                if (iterator.hasNext()) {
+                    lore.append("\n");
+                }
+            }
+            this.lore = lore.toString();
+        }
+        return lore;
     }
 }

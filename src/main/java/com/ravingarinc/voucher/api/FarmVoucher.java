@@ -1,5 +1,6 @@
 package com.ravingarinc.voucher.api;
 
+import com.ravingarinc.voucher.item.ItemType;
 import com.ravingarinc.voucher.player.HolderManager;
 import com.ravingarinc.voucher.storage.VoucherSettings;
 import org.bukkit.Material;
@@ -17,12 +18,12 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 public class FarmVoucher extends Voucher {
-    private final Material item;
-    private final Material block;
-    private final Material seed;
-    private final Material food;
+    private final ItemType item;
+    private final ItemType block;
+    private final ItemType seed;
+    private final ItemType food;
 
-    public FarmVoucher(final String key, final Material item, final Material block, final Material seed, final Material food, final HolderManager manager) {
+    public FarmVoucher(final String key, final ItemType item, final ItemType block, final ItemType seed, final ItemType food, final HolderManager manager) {
         super(key, manager);
 
         this.item = item;
@@ -34,7 +35,7 @@ public class FarmVoucher extends Voucher {
             subscribe(PrepareItemCraftEvent.class, (event) -> {
                 final CraftingInventory inventory = event.getInventory();
                 final ItemStack result = inventory.getResult();
-                if (result != null && result.getType() == food) {
+                if (result != null && food.isSameAs(result)) {
                     if (isUnlocked((Player) event.getViewers().get(0))) {
                         return;
                     }
@@ -45,8 +46,7 @@ public class FarmVoucher extends Voucher {
 
         if (VoucherSettings.blockFoodMaterialConsume) {
             subscribe(PlayerItemConsumeEvent.class, (event) -> {
-
-                if (event.getItem().getType() == food) {
+                if (food.isSameAs(event.getItem())) {
                     if (isUnlocked(event.getPlayer())) {
                         return;
                     }
@@ -57,7 +57,8 @@ public class FarmVoucher extends Voucher {
         }
 
         subscribe(PlayerInteractEvent.class, (event) -> {
-            if (event.getMaterial() == seed || event.getMaterial() == item) {
+            final ItemStack eventItem = event.getItem();
+            if (seed.isSameAs(eventItem) || item.isSameAs(eventItem)) {
                 if (isUnlocked(event.getPlayer())) {
                     return;
                 }
@@ -69,7 +70,7 @@ public class FarmVoucher extends Voucher {
         });
 
         subscribe(BlockPlaceEvent.class, (event) -> {
-            if (event.getBlockPlaced().getType() == block) {
+            if (block.isSameAs(event.getBlockPlaced().getBlockData())) {
                 if (isUnlocked(event.getPlayer())) {
                     return;
                 }
@@ -80,7 +81,7 @@ public class FarmVoucher extends Voucher {
         });
 
         subscribe(BlockBreakEvent.class, (event) -> {
-            if (event.getBlock().getType() == block) {
+            if (block.isSameAs(event.getBlock().getBlockData())) {
                 if (isUnlocked(event.getPlayer())) {
                     return;
                 }
@@ -92,24 +93,21 @@ public class FarmVoucher extends Voucher {
 
     @Override
     public Material getIcon() {
-        return item;
+        return item.getMaterial();
     }
 
     @Override
     public String getLore() {
         if (lore == null) {
-            final String formatItem = fullyCapitalise(item.getKey().getKey());
-            final String formatBlock = fullyCapitalise(block.getKey().getKey());
-            final String formatFood = fullyCapitalise(food.getKey().getKey());
-            final String formatSeed = fullyCapitalise(seed.getKey().getKey());
             final StringBuilder lore = new StringBuilder();
             final Iterator<String> iterator = Arrays.stream(VoucherSettings.farmLoreFormat).iterator();
             while (iterator.hasNext()) {
                 lore.append(iterator.next()
-                        .replace("{item}", formatItem)
-                        .replace("{block}", formatBlock)
-                        .replace("{food}", formatFood)
-                        .replace("{seed}", formatSeed));
+                        .replace("{tier}", item.getTier())
+                        .replace("{item}", item.getDisplayName())
+                        .replace("{block}", block.getDisplayName())
+                        .replace("{food}", food.getDisplayName())
+                        .replace("{seed}", seed.getDisplayName()));
                 if (iterator.hasNext()) {
                     lore.append("\n");
                 }
@@ -117,5 +115,10 @@ public class FarmVoucher extends Voucher {
             this.lore = lore.toString();
         }
         return this.lore;
+    }
+
+    @Override
+    public String getItemDisplayName() {
+        return item.getDisplayName();
     }
 }

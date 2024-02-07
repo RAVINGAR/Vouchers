@@ -1,47 +1,14 @@
-defaults:
-  # Define the MATERIAL id of an item/block here. The specified material will mean that a player must have unlocked the specified
-  # voucher for this material in order to craft it, place it, use it, or anything else. Adding items here will prevent using
-  # them, adding armour will prevent equipping them, adding consumables will prevent them from being consumed, adding blocks
-  # will prevent them from being placed and broken (if configured)
-  material-vouchers:
-    - diamond_sword
-    - leather_helmet
-    - leather_chestplate
-    - obsidian
-  # Farm vouchers must be considered different since they involve multiple materials. Added options here in cases
-  # new farm items are added in the future. Minecraft is a bit weird regarding these materials, since sometimes the block id
-  # material different to the item material, or the seed material is different or the same to the item material.
-  # See https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html for a list of materials!
-  farm-vouchers:
-    wheat: # This is what the voucher will be 'called' so technically it can be anything
-      item-material: wheat # The item gained after harvesting a crop
-      block-material: wheat # The block material of the growing crop
-      seed-material: wheat_seeds # The item used to plant the crop
-      #If you wish to block crafting of bread as a different voucher, then simply add it to the material-vouchers section
-      food-material: bread # The produced edible item of the product
-    carrots:
-      item-material: carrot
-      block-material: carrots
-      seed-material: carrot
-      food-material: carrot
-    potatoes:
-      item-material: potato
-      block-material: potatoes
-      seed-material: potato
-      food-material: baked_potato
-    beetroot:
-      item-material: beetroot
-      block-material: beetroots
-      seed-material: beetroot_seeds
-      food-material: beetroot_soup
 messages:
   # Specify the format for the voucher item
   voucher-item-name-format: '&6{item} Voucher'
+  voucher-item-name-format-locked: '&8{item} Voucher'
   voucher-item-material: PAPER
   voucher-item-lore-format:
+    - '&e<Tier {tier}>'
     - '&7Grants the ability to craft'
     - '&7and use &8{item}'
   voucher-farm-lore-format:
+    - '&e<Tier {tier}>'
     - '&7Grants the ability to plant'
     - '&8{seed}&7 to grow &8{block}'
     - '&7Grants the ability to craft'

@@ -2,7 +2,6 @@ package com.ravingarinc.voucher.tracker;
 
 import com.ravingarinc.api.I;
 import com.ravingarinc.api.module.Module;
-import com.ravingarinc.api.module.ModuleLoadException;
 import com.ravingarinc.api.module.RavinPlugin;
 import com.ravingarinc.voucher.api.Voucher;
 import org.bukkit.event.Event;

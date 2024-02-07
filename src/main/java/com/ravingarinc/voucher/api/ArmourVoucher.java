@@ -1,33 +1,25 @@
 package com.ravingarinc.voucher.api;
 
+import com.ravingarinc.voucher.item.ItemType;
 import com.ravingarinc.voucher.player.HolderManager;
 import com.ravingarinc.voucher.storage.VoucherSettings;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.block.BlockDispenseArmorEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryAction;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryDragEvent;
-import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.inventory.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class ArmourVoucher extends ItemVoucher {
     private final List<Integer> armourSlots = Arrays.asList(36, 37, 38, 39);
 
     private final Map<UUID, Long> lastDamageCheck;
 
-    public ArmourVoucher(final Material material, final HolderManager manager) {
-        super(material, manager);
+    public ArmourVoucher(final ItemType type, final HolderManager manager) {
+        super(type, manager);
 
         lastDamageCheck = new HashMap<>();
 
@@ -36,7 +28,7 @@ public class ArmourVoucher extends ItemVoucher {
                 return;
             }
             final ItemStack cursor = event.getOldCursor();
-            if (cursor.getType() != material) {
+            if (type.isSameAs(cursor)) {
                 return;
             }
             if (armourSlots.stream().anyMatch(i -> event.getInventorySlots().stream().findFirst().orElse(-1).equals(i))) {
@@ -48,7 +40,7 @@ public class ArmourVoucher extends ItemVoucher {
         });
 
         subscribe(BlockDispenseArmorEvent.class, (event) -> {
-            if (event.getItem().getType() == material) {
+            if (type.isSameAs(event.getItem())) {
                 if (isUnlocked((Player) event.getTargetEntity())) {
                     return;
                 }
@@ -63,7 +55,7 @@ public class ArmourVoucher extends ItemVoucher {
             final Player player = (Player) event.getWhoClicked();
 
             ItemStack stack = event.getCurrentItem();
-            if (stack != null && stack.getType() == material && !isUnlocked(player)) {
+            if (stack != null && type.isSameAs(stack) && !isUnlocked(player)) {
                 if (action == InventoryAction.MOVE_TO_OTHER_INVENTORY && (click == ClickType.SHIFT_LEFT || click == ClickType.SHIFT_RIGHT)) {
                     event.setResult(Event.Result.DENY);
                     event.setCancelled(true);
@@ -71,14 +63,14 @@ public class ArmourVoucher extends ItemVoucher {
             }
             if (click == ClickType.NUMBER_KEY) {
                 stack = player.getInventory().getItem(event.getHotbarButton());
-                if (stack != null && stack.getType() == material && !isUnlocked(player)) {
+                if (stack != null && type.isSameAs(stack) && !isUnlocked(player)) {
                     event.setResult(Event.Result.DENY);
                     event.setCancelled(true);
                 }
             }
 
             stack = event.getCursor();
-            if (stack != null && stack.getType() == material && !isUnlocked(player)) {
+            if (stack != null && type.isSameAs(stack) && !isUnlocked(player)) {
                 if (slot == InventoryType.SlotType.ARMOR && (action == InventoryAction.PLACE_ALL || action == InventoryAction.PLACE_ONE)) {
                     event.setResult(Event.Result.DENY);
                     event.setCancelled(true);
@@ -103,7 +95,7 @@ public class ArmourVoucher extends ItemVoucher {
                 final ItemStack[] armour = inventory.getArmorContents();
                 for (int i = 0; i < armour.length; i++) {
                     final ItemStack piece = armour[i];
-                    if (piece != null && piece.getType() == material) {
+                    if (piece != null && type.isSameAs(piece)) {
                         message = true;
                         inventory.setItem(armourSlots.get(i), null);
                         final int empty = inventory.firstEmpty();

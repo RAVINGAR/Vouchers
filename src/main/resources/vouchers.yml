@@ -1,0 +1,51 @@
+# Define the MATERIAL id of an item/block here. The specified material will mean that a player must have unlocked the specified
+# voucher for this material in order to craft it, place it, use it, or anything else. Adding items here will prevent using
+# them, adding armour will prevent equipping them, adding consumables will prevent them from being consumed, adding blocks
+# will prevent them from being placed and broken (if configured) ONLY if the item is a vanilla type. (As custom item
+# types from other plugins are currently not supported)
+#
+# There are three types of possible items here
+# Vanilla Minecraft - 'vanilla:<namespace>:<tier>'
+# MMOItems - 'mmoitems:<type>:<identifier>:<tier>'
+# Mythic Crucible - 'crucible:<identifier>:<tier>'
+#
+# If no namespace is specified then vanilla is assumed.
+# A tier can quite literally be anything as the plugin will simply add whatever is specified here as a tier
+# But for your purposes, you probably want to stick to "basic", "advanced" and "expert"
+material-vouchers:
+  - "diamond_sword:advanced"
+  - "vanilla:leather_helmet:basic"
+  - "vanilla:leather_chestplate:basic"
+  - "vanilla:obsidian:advanced"
+  - "mmoitems:shortsword:mithril_shortsword:expert"
+  - "crucible:cursed_blade:expert"
+  # Farm vouchers must be considered different since they involve multiple materials. Added options here in cases
+  # new farm items are added in the future. Minecraft is a bit weird regarding these materials, since sometimes the block id
+  # material different to the item material, or the seed material is different or the same to the item material.
+  # See https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html for a list of materials!
+farm-vouchers:
+  wheat: # This is what the voucher will be 'called' so technically it can be anything
+    tier: advanced
+    item-material: wheat # The item gained after harvesting a crop.
+    block-material: wheat # The block material of the growing crop
+    seed-material: wheat_seeds # The item used to plant the crop
+    #If you wish to block crafting of bread as a different voucher, then simply add it to the material-vouchers section
+    food-material: bread # The produced edible item of the product
+  carrots:
+    tier: basic
+    item-material: carrot
+    block-material: carrots
+    seed-material: carrot
+    food-material: carrot
+  potatoes:
+    tier: basic
+    item-material: potato
+    block-material: potatoes
+    seed-material: potato
+    food-material: baked_potato
+  beetroot:
+    tier: basic
+    item-material: beetroot
+    block-material: beetroots
+    seed-material: beetroot_seeds
+    food-material: beetroot_soup

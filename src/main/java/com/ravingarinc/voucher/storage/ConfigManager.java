@@ -3,19 +3,21 @@ package com.ravingarinc.voucher.storage;
 import com.ravingarinc.api.I;
 import com.ravingarinc.api.module.Module;
 import com.ravingarinc.api.module.RavinPlugin;
-import com.ravingarinc.voucher.api.ArmourVoucher;
-import com.ravingarinc.voucher.api.BlockVoucher;
-import com.ravingarinc.voucher.api.FarmVoucher;
-import com.ravingarinc.voucher.api.ItemVoucher;
-import com.ravingarinc.voucher.api.Voucher;
+import com.ravingarinc.voucher.api.*;
+import com.ravingarinc.voucher.item.CrucibleItemType;
+import com.ravingarinc.voucher.item.ItemType;
+import com.ravingarinc.voucher.item.MMOItemType;
+import com.ravingarinc.voucher.item.VanillaItemType;
 import com.ravingarinc.voucher.player.HolderManager;
 import com.ravingarinc.voucher.tracker.VoucherTracker;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.EquipmentSlot;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -25,11 +27,14 @@ import java.util.logging.Level;
 
 public class ConfigManager extends Module {
     private final ConfigFile configFile;
+
+    private final ConfigFile voucherFile;
     private final EquipmentSlot[] armourSlots = new EquipmentSlot[]{EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET};
 
     public ConfigManager(final RavinPlugin plugin) {
         super(ConfigManager.class, plugin);
         this.configFile = new ConfigFile(plugin, "config.yml");
+        this.voucherFile = new ConfigFile(plugin, "vouchers.yml");
     }
 
     @Override
@@ -38,50 +43,59 @@ public class ConfigManager extends Module {
         final HolderManager manager = plugin.getModule(HolderManager.class);
 
         final FileConfiguration config = configFile.getConfig();
-        consumeSection(config, "defaults", (child) -> {
-            wrap("material-vouchers", child::getStringList).ifPresent(v -> {
-                v.forEach(string -> {
-                    try {
-                        final Material material = matchMaterial(string, "material-vouchers");
+        final FileConfiguration vouchersConfig = voucherFile.getConfig();
+        wrap("material-vouchers", vouchersConfig::getStringList).ifPresent(v -> {
+            v.forEach(string -> {
+                try {
+                    final ItemType type = getItemType(string);
+                    if(type != null) {
                         final Voucher voucher;
+                        final Material material = type.getMaterial();
                         if (material.isBlock()) {
-                            voucher = new BlockVoucher(material, manager);
+                            voucher = new BlockVoucher(type, manager);
                         } else {
                             if (Arrays.stream(armourSlots).anyMatch(slot -> material.getEquipmentSlot() == slot)) {
-                                voucher = new ArmourVoucher(material, manager);
+                                voucher = new ArmourVoucher(type, manager);
                             } else {
-                                voucher = new ItemVoucher(material, manager);
+                                voucher = new ItemVoucher(type, manager);
                             }
                         }
                         tracker.addVoucher(voucher);
-                    } catch (final IllegalArgumentException e) {
-                        I.log(Level.WARNING, e.getMessage());
                     }
-                });
-            });
 
-            consumeSection(child, "farm-vouchers", (vouchers) -> vouchers.getKeys(false).forEach(key -> {
-                final ConfigurationSection section = vouchers.getConfigurationSection(key);
-                if (section == null) {
-                    I.log(Level.WARNING, "Could not load farm-voucher section for key '" + key + "' as section was empty!");
-                } else {
-                    try {
-                        final Material item = matchMaterial(section.getString("item-material"), key + ".item-material");
-                        final Material block = matchMaterial(section.getString("block-material"), key + ".block-material");
-                        final Material seed = matchMaterial(section.getString("seed-material"), key + ".seed-material");
-                        final Material food = matchMaterial(section.getString("food-material"), key + ".food-material");
-                        final FarmVoucher voucher = new FarmVoucher(key, item, block, seed, food, manager);
-                        tracker.addVoucher(voucher);
-                    } catch (final IllegalArgumentException e) {
-                        I.log(Level.WARNING, e.getMessage());
-                    }
+                } catch (final IllegalArgumentException e) {
+                    I.log(Level.WARNING, e.getMessage());
                 }
-
-            }));
+            });
         });
+
+        consumeSection(vouchersConfig, "farm-vouchers", (vouchers) -> vouchers.getKeys(false).forEach(key -> {
+            final ConfigurationSection section = vouchers.getConfigurationSection(key);
+            if (section == null) {
+                I.log(Level.WARNING, "Could not load farm-voucher section for key '" + key + "' as section was empty!");
+            } else {
+                try {
+                    String tier = section.getString("tier");
+                    if(tier == null) {
+                        I.log(Level.WARNING, "Tier for farming voucher '" + key + "' could not be found! Please make sure to include the tier. Using a default of 'basic' for now...");
+                        tier = "basic";
+                    }
+                    final ItemType item = getItemType(section.getString("item-material"), tier);
+                    final ItemType block = getItemType(section.getString("block-material"), tier);
+                    final ItemType seed = getItemType(section.getString("seed-material"), tier);
+                    final ItemType food = getItemType(section.getString("food-material"), tier);
+                    final FarmVoucher voucher = new FarmVoucher(key, item, block, seed, food, manager);
+                    tracker.addVoucher(voucher);
+                } catch (final IllegalArgumentException e) {
+                    I.log(Level.WARNING, e.getMessage());
+                }
+            }
+
+        }));
 
         consumeSection(config, "messages", (child) -> {
             wrap("voucher-item-name-format", child::getString).ifPresent(v -> VoucherSettings.voucherNameFormat = ChatColor.translateAlternateColorCodes('&', v));
+            wrap("voucher-item-name-format-locked", child::getString).ifPresent(v -> VoucherSettings.voucherNameFormatLocked = ChatColor.translateAlternateColorCodes('&', v));
             wrap("voucher-item-lore-format", child::getStringList).ifPresent(v -> {
                 final String[] lore = new String[v.size()];
                 for (int i = 0; i < lore.length; i++) {
@@ -111,6 +125,60 @@ public class ConfigManager extends Module {
                 VoucherSettings.border2 = Material.GRAY_STAINED_GLASS_PANE;
             }
         });
+    }
+
+    @Nullable
+    private ItemType getItemType(String line) {
+        String[] split = line.split(":");
+        if(split.length < 2) {
+            I.log(Level.WARNING, "Could not parse item line '" + line + "' as no tier was specified!");
+            return null;
+        }
+        return getItemType(line.substring(0, line.length() - split[split.length - 1].length() - 1), split[split.length - 1]);
+    }
+
+    @Nullable
+    private ItemType getItemType(@Nullable String line, String tier) {
+        if(line == null || line.isEmpty()) {
+            return null;
+        }
+        String formattedTier = tier.toLowerCase();
+        String[] split = line.toLowerCase().split(":");
+        if(split[0].equals("mmoitem") || split[0].equals("mmoitems")) {
+            if(!Bukkit.getServer().getPluginManager().isPluginEnabled("MMOItems")) {
+                I.log(Level.WARNING, "Could not load MMOItems item type from '" + line + "' as MMOItems is not enabled!");
+                return null;
+            }
+            if(split.length == 3) {
+                return new MMOItemType(split[1].toUpperCase(), split[2].toUpperCase(), formattedTier);
+            } else {
+                I.log(Level.WARNING, "Could not parse '" + line + "' as MMOItem as this requires both a type and identifier to specified!");
+                return null;
+            }
+        } else if(split[0].equals("crucible")) {
+            if(!Bukkit.getServer().getPluginManager().isPluginEnabled("MythicCrucible")) {
+                I.log(Level.WARNING, "Could not load MythicCrucible item type from '" + line + "' as MythicCrucible is not enabled!");
+                return null;
+            }
+            return new CrucibleItemType(split[1], formattedTier);
+        } else {
+            int i;
+            if(split[0].equals("vanilla")) {
+                i = 1;
+            } else if(split.length == 1) {
+                i = 0;
+            } else {
+                I.log(Level.WARNING, "Could not determine item type from '" + line + "'! (have you specified a tier?)");
+                return null;
+            }
+            final var material = Material.matchMaterial(split[i]);
+            if(material == null) {
+                I.log(Level.WARNING, "Could not find vanilla material called '" + split[i] + "' to determine ItemType!");
+                return null;
+            } else {
+                return new VanillaItemType(material, formattedTier);
+            }
+        }
     }
 
     /**

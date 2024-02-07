@@ -51,5 +51,20 @@
       <option name="name" value="inventive-repo" />
       <option name="url" value="https://repo.inventivetalent.org/repository/public/" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="MavenLocal" />
+      <option name="name" value="MavenLocal" />
+      <option name="url" value="file:$MAVEN_REPOSITORY$/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="phoenix-repo" />
+      <option name="name" value="phoenix-repo" />
+      <option name="url" value="https://nexus.phoenixdevt.fr/repository/maven-public/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="mythic-repo" />
+      <option name="name" value="mythic-repo" />
+      <option name="url" value="https://mvn.lumine.io/repository/maven-public/" />
+    </remote-repository>
   </component>
 </project>

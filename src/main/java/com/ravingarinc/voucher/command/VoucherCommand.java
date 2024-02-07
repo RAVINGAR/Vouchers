@@ -12,7 +12,14 @@ import java.util.ArrayList;
 
 public class VoucherCommand extends BaseCommand {
     public VoucherCommand(final RavinPlugin plugin) {
-        super(plugin, "voucher", null);
+        super(plugin, "vouchers", null, "View your vouchers", 0, (sender, args) -> {
+            if (sender instanceof Player player) {
+                player.openInventory(plugin.getModule(HolderManager.class).getHolder(player).getGui(plugin).getInventory());
+            } else {
+                sender.sendMessage(ChatColor.RED + "This command can only be used by a player!");
+            }
+            return true;
+        });
 
         final HolderManager manager = plugin.getModule(HolderManager.class);
         final VoucherTracker tracker = plugin.getModule(VoucherTracker.class);
@@ -41,7 +48,7 @@ public class VoucherCommand extends BaseCommand {
                         return true;
                     }
                     final Player finalPlayer = player;
-                    player.getInventory().addItem(voucher.getItem(plugin)).values().forEach(i -> finalPlayer.getWorld().dropItemNaturally(finalPlayer.getLocation(), i));
+                    player.getInventory().addItem(voucher.getVoucherItem(plugin)).values().forEach(i -> finalPlayer.getWorld().dropItemNaturally(finalPlayer.getLocation(), i));
                     sender.sendMessage(ChatColor.GREEN + "You have given the voucher '" + args[2] + "' to " + player.getName());
                     return true;
                 }).buildTabCompletions((sender, args) -> {
@@ -110,8 +117,6 @@ public class VoucherCommand extends BaseCommand {
                     }
                     return new ArrayList<>();
                 }).getParent().addHelpOption(ChatColor.DARK_GREEN, ChatColor.GREEN);
-
-        new ViewCommand(plugin, this).register();
 
         addHelpOption(ChatColor.DARK_GREEN, ChatColor.GREEN);
     }

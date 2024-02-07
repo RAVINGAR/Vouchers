@@ -123,7 +123,13 @@ public class PlayerListener extends ModuleListener {
             holder.unlock(voucher);
             player.sendMessage(ChatColor.GREEN + "You unlocked the " + voucher.getDisplayName());
             player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS, 0.7F, 1.0F);
-            player.getInventory().setItemInMainHand(null);
+            if(item.getAmount() > 1) {
+                item.setAmount(item.getAmount() - 1);
+                player.getInventory().setItemInMainHand(item);
+            } else {
+                player.getInventory().setItemInMainHand(null);
+            }
+
             event.setCancelled(true);
             event.setUseItemInHand(Event.Result.DENY);
             return false;

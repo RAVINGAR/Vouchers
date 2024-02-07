@@ -57,7 +57,7 @@ public class Holder {
                 .setMaterialProvider(Voucher::getIcon)
                 .setPredicateProvider((voucher) -> (gui, player) -> isUnlocked(voucher.getKey())).finalise()
                 .addPageFiller("VOUCHER_FILLER_LOCKED", tracker::getVouchers)
-                .setDisplayNameProvider(Voucher::getDisplayName)
+                .setDisplayNameProvider(Voucher::getLockedDisplayName)
                 .setLoreProvider(v -> v.getLore() + "\n\n" + VoucherSettings.lockedMessage)
                 .setIdentifierProvider(Voucher::getKey)
                 .setMaterialProvider(v -> Material.PAPER)
