@@ -23,10 +23,17 @@ public abstract class Voucher {
 
     protected String lore = null;
 
-    public Voucher(final String key, final HolderManager manager) {
+    protected String tier;
+
+    public Voucher(final String key, final String tier, final HolderManager manager) {
         this.key = key;
+        this.tier = tier;
         this.subscribers = new HashMap<>();
         this.manager = manager;
+    }
+
+    public String getTier() {
+        return tier;
     }
 
     public <T extends Event> void subscribe(final Class<T> event, final Consumer<T> consumer) {

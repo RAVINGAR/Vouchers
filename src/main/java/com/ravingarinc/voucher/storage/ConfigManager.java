@@ -20,6 +20,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -44,30 +46,37 @@ public class ConfigManager extends Module {
 
         final FileConfiguration config = configFile.getConfig();
         final FileConfiguration vouchersConfig = voucherFile.getConfig();
-        wrap("material-vouchers", vouchersConfig::getStringList).ifPresent(v -> {
-            v.forEach(string -> {
-                try {
-                    final ItemType type = getItemType(string);
-                    if(type != null) {
-                        final Voucher voucher;
-                        final Material material = type.getMaterial();
-                        if (material.isBlock()) {
-                            voucher = new BlockVoucher(type, manager);
+        wrap("material-vouchers", vouchersConfig::getMapList).ifPresent(v -> v.forEach(map -> {
+            try {
+                final ItemType type = getItemType(map.get("item").toString());
+                if(type != null) {
+                    final ItemVoucher voucher;
+                    final Material material = type.getMaterial();
+                    final String tier = map.get("tier").toString();
+                    final String craftTime = map.get("craft-time").toString();
+                    final int energyCost = Integer.parseInt(map.get("energy-cost").toString());
+                    final int moneyCost = Integer.parseInt(map.get("money-cost").toString());
+                    if(material.isBlock()) {
+                        voucher = new BlockVoucher(type, tier, craftTime, energyCost, moneyCost, manager);
+                    } else {
+                        if(Arrays.stream(armourSlots).anyMatch(slot -> material.getEquipmentSlot() == slot)) {
+                            voucher = new ArmourVoucher(type, tier, craftTime, energyCost, moneyCost, manager);
                         } else {
-                            if (Arrays.stream(armourSlots).anyMatch(slot -> material.getEquipmentSlot() == slot)) {
-                                voucher = new ArmourVoucher(type, manager);
-                            } else {
-                                voucher = new ItemVoucher(type, manager);
-                            }
+                            voucher = new ItemVoucher(type, tier, craftTime, energyCost, moneyCost, manager);
                         }
-                        tracker.addVoucher(voucher);
                     }
-
-                } catch (final IllegalArgumentException e) {
-                    I.log(Level.WARNING, e.getMessage());
+                    ((List<?>)map.get("item-costs")).forEach(val -> {
+                        final Map<?, ?> innerMap = (Map<?, ?>)val;
+                        final ItemType costType = getItemType(innerMap.get("id").toString());
+                        final int quantity = Integer.parseInt(innerMap.get("quantity").toString());
+                        voucher.addItemCost(costType, quantity);
+                    });
+                    tracker.addVoucher(voucher);
                 }
-            });
-        });
+            } catch (final IllegalArgumentException e) {
+                I.log(Level.WARNING, e.getMessage(), e);
+            }
+        }));
 
         consumeSection(vouchersConfig, "farm-vouchers", (vouchers) -> vouchers.getKeys(false).forEach(key -> {
             final ConfigurationSection section = vouchers.getConfigurationSection(key);
@@ -80,11 +89,11 @@ public class ConfigManager extends Module {
                         I.log(Level.WARNING, "Tier for farming voucher '" + key + "' could not be found! Please make sure to include the tier. Using a default of 'basic' for now...");
                         tier = "basic";
                     }
-                    final ItemType item = getItemType(section.getString("item-material"), tier);
-                    final ItemType block = getItemType(section.getString("block-material"), tier);
-                    final ItemType seed = getItemType(section.getString("seed-material"), tier);
-                    final ItemType food = getItemType(section.getString("food-material"), tier);
-                    final FarmVoucher voucher = new FarmVoucher(key, item, block, seed, food, manager);
+                    final ItemType item = getItemType(section.getString("item-material"));
+                    final ItemType block = getItemType(section.getString("block-material"));
+                    final ItemType seed = getItemType(section.getString("seed-material"));
+                    final ItemType food = getItemType(section.getString("food-material"));
+                    final FarmVoucher voucher = new FarmVoucher(key, tier, item, block, seed, food, manager);
                     tracker.addVoucher(voucher);
                 } catch (final IllegalArgumentException e) {
                     I.log(Level.WARNING, e.getMessage());
@@ -109,6 +118,11 @@ public class ConfigManager extends Module {
         });
 
         consumeSection(config, "miscellaneous", (child) -> {
+            wrap("prevent-crafting", child::getBoolean).ifPresent(v -> VoucherSettings.preventItemCrafting = v);
+            wrap("prevent-damage", child::getBoolean).ifPresent(v -> VoucherSettings.preventItemDamage = v);
+            wrap("prevent-interaction", child::getBoolean).ifPresent(v -> VoucherSettings.preventItemInteraction = v);
+            wrap("prevent-equip", child::getBoolean).ifPresent(v -> VoucherSettings.preventItemEquipping = v);
+
             wrap("prevent-block-placement", child::getBoolean).ifPresent(v -> VoucherSettings.preventBlockPlacement = v);
             wrap("prevent-block-mining", child::getBoolean).ifPresent(v -> VoucherSettings.preventBlockMining = v);
             wrap("block-food-material-craft", child::getBoolean).ifPresent(v -> VoucherSettings.blockFoodMaterialCraft = v);
@@ -128,21 +142,10 @@ public class ConfigManager extends Module {
     }
 
     @Nullable
-    private ItemType getItemType(String line) {
-        String[] split = line.split(":");
-        if(split.length < 2) {
-            I.log(Level.WARNING, "Could not parse item line '" + line + "' as no tier was specified!");
-            return null;
-        }
-        return getItemType(line.substring(0, line.length() - split[split.length - 1].length() - 1), split[split.length - 1]);
-    }
-
-    @Nullable
-    private ItemType getItemType(@Nullable String line, String tier) {
+    private ItemType getItemType(@Nullable String line) {
         if(line == null || line.isEmpty()) {
             return null;
         }
-        String formattedTier = tier.toLowerCase();
         String[] split = line.toLowerCase().split(":");
         if(split[0].equals("mmoitem") || split[0].equals("mmoitems")) {
             if(!Bukkit.getServer().getPluginManager().isPluginEnabled("MMOItems")) {
@@ -150,7 +153,7 @@ public class ConfigManager extends Module {
                 return null;
             }
             if(split.length == 3) {
-                return new MMOItemType(split[1].toUpperCase(), split[2].toUpperCase(), formattedTier);
+                return new MMOItemType(split[1].toUpperCase(), split[2].toUpperCase());
             } else {
                 I.log(Level.WARNING, "Could not parse '" + line + "' as MMOItem as this requires both a type and identifier to specified!");
                 return null;
@@ -160,7 +163,7 @@ public class ConfigManager extends Module {
                 I.log(Level.WARNING, "Could not load MythicCrucible item type from '" + line + "' as MythicCrucible is not enabled!");
                 return null;
             }
-            return new CrucibleItemType(split[1], formattedTier);
+            return new CrucibleItemType(split[1]);
         } else {
             int i;
             if(split[0].equals("vanilla")) {
@@ -176,7 +179,7 @@ public class ConfigManager extends Module {
                 I.log(Level.WARNING, "Could not find vanilla material called '" + split[i] + "' to determine ItemType!");
                 return null;
             } else {
-                return new VanillaItemType(material, formattedTier);
+                return new VanillaItemType(material);
             }
         }
     }

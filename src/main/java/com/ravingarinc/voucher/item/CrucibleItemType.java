@@ -12,7 +12,6 @@ import java.util.logging.Level;
 
 public class CrucibleItemType implements ItemType {
     private final String identifier;
-    private final String tier;
 
     private final Lazy<String> displayName = new Lazy<>(() -> {
         final var item = MythicBukkit.inst().getItemManager().getItem(getId());
@@ -31,9 +30,8 @@ public class CrucibleItemType implements ItemType {
         I.log(Level.WARNING, "Could not find MythicCrucible item with id '" + getId() + "'!");
         return Material.STONE;
     });
-    public CrucibleItemType(String identifier, String tier) {
+    public CrucibleItemType(String identifier) {
         this.identifier = identifier;
-        this.tier = tier;
     }
     @Override
     public boolean isSameAs(ItemStack item) {
@@ -69,12 +67,12 @@ public class CrucibleItemType implements ItemType {
     }
 
     @Override
-    public String getTier() {
-        return tier;
+    public String getKey() {
+        return "crucible_" + getId();
     }
 
     @Override
-    public String getKey() {
-        return "crucible_" + getId();
+    public String toString() {
+        return "crucible:" + identifier;
     }
 }

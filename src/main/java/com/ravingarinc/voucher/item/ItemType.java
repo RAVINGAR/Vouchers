@@ -16,7 +16,5 @@ public interface ItemType {
 
     String getDisplayName();
 
-    String getTier();
-
     String getKey();
 }

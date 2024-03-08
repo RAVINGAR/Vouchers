@@ -18,8 +18,6 @@ public class MMOItemType implements ItemType {
     private final String type;
     private final String identifier;
 
-    private final String tier;
-
     private final Lazy<String> displayName = new Lazy<>(() -> {
         final var type = MMOItems.plugin.getTypes().get(getType());
         if(type == null) {
@@ -57,10 +55,9 @@ public class MMOItemType implements ItemType {
         return material.getMaterial();
     });
 
-    public MMOItemType(String type, String identifier, String tier) {
+    public MMOItemType(String type, String identifier) {
         this.type = type;
         this.identifier = identifier;
-        this.tier = tier;
     }
     @Override
     public boolean isSameAs(ItemStack item) {
@@ -93,11 +90,6 @@ public class MMOItemType implements ItemType {
         return identifier;
     }
 
-    @Override
-    public String getTier() {
-        return tier;
-    }
-
     public String getType() {
         return type;
     }
@@ -110,5 +102,10 @@ public class MMOItemType implements ItemType {
     @Override
     public String getKey() {
         return "mmoitems_" + getId();
+    }
+
+    @Override
+    public String toString() {
+        return "mmoitems:" + type + ":" + identifier;
     }
 }

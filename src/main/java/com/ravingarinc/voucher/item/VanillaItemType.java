@@ -7,12 +7,10 @@ import org.bukkit.inventory.ItemStack;
 
 public class VanillaItemType implements ItemType {
     private final Material material;
-    private final String tier;
 
     private final String name;
-    public VanillaItemType(Material material, String tier) {
+    public VanillaItemType(Material material) {
         this.material = material;
-        this.tier = tier;
         this.name = Util.fullyCapitalise(material.getKey().getKey());
     }
     @Override
@@ -34,11 +32,6 @@ public class VanillaItemType implements ItemType {
     }
 
     @Override
-    public String getTier() {
-        return tier;
-    }
-
-    @Override
     public Material getMaterial() {
         return material;
     }
@@ -51,5 +44,10 @@ public class VanillaItemType implements ItemType {
     @Override
     public String getKey() {
         return "vanilla_" + getId();
+    }
+
+    @Override
+    public String toString() {
+        return "vanilla:" + material.getKey().getKey();
     }
 }

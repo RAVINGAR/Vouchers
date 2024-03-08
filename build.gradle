@@ -5,10 +5,11 @@ plugins {
     id 'pmd'
     id 'com.github.johnrengelman.shadow' version '7.1.2'
     id 'net.minecrell.plugin-yml.bukkit' version '0.5.1'
+    id 'maven-publish'
 }
 
 group = 'com.ravingarinc.voucher'
-version = '1.3-SNAPSHOT'
+version = '1.5-SNAPSHOT'
 
 repositories {
     gradlePluginPortal()
@@ -65,18 +66,24 @@ dependencies {
     implementation 'com.ravingarinc.api:module:1.4.5'
     implementation 'com.ravingarinc.api:gui:1.4.5'
     implementation 'com.ravingarinc.api:common:1.4.5'
-    implementation 'org.jetbrains:annotations:23.1.0'
+    compileOnly 'org.jetbrains:annotations:23.1.0'
     compileOnly 'org.spigotmc:spigot-api:1.19.4-R0.1-SNAPSHOT'
 
     compileOnly("io.lumine:Mythic-Dist:5.1.0-SNAPSHOT")
     compileOnly("io.lumine:MythicLib-dist:1.5.2-SNAPSHOT")
     compileOnly("net.Indyuce:MMOItems-API:6.9.2-SNAPSHOT")
 }
+jar {
+    archiveFileName.set("Vouchers-parent.jar")
+    archiveBaseName.set("Vouchers-parent")
+    archiveVersion.set(null)
+    archiveClassifier.set('original')
+}
 
 shadowJar {
     archiveBaseName.set('Vouchers')
     archiveClassifier.set('')
-    archiveVersion.set('')
+    archiveVersion.set(this.project.version)
     relocate 'com.ravingarinc.api', 'com.ravingarinc.voucher.lib.api'
 }
 
@@ -96,6 +103,8 @@ java {
     }
 }
 
+
+
 tasks.withType(JavaCompile).configureEach {
     if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
         options.release = targetJavaVersion
@@ -109,6 +118,17 @@ tasks.register("copyToDev", Copy) {
 }
 
 assemble.finalizedBy copyToDev
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = this.project.group
+            artifactId = this.project.name
+            version = this.project.version
+            from components.java
+        }
+    }
+}
 
 javadoc {
     options.encoding 'UTF-8'
@@ -179,6 +199,7 @@ bukkit {
     version = project.version
     description = 'Voucher plugin to restrict recipes and other features.'
     main = 'com.ravingarinc.voucher.Vouchers'
+    softDepend = ['MythicCrucible', 'MMOItems', 'MythicLib']
 
     // API version (should be set for 1.13+)
     apiVersion = '1.18'

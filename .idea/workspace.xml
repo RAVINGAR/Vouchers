@@ -4,17 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="717a9acc-0232-48f8-b3e5-8646944292ca" name="Changes" comment="Update with new RavinAPI!">
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules/com.ravingarinc.voucher.Vouchers.main.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/api/Lazy.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/api/Util.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/item/CrucibleItemType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/item/ItemType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/item/MMOItemType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/item/VanillaItemType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/vouchers.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+    <list default="true" id="717a9acc-0232-48f8-b3e5-8646944292ca" name="Changes" comment="made a number of changes, including added support for mythic crucible and mmoitems.">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/api/event/VouchersReloadedEvent.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/Vouchers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/Vouchers.java" afterDir="false" />
@@ -23,16 +14,12 @@
       <change beforePath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/api/FarmVoucher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/api/FarmVoucher.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/api/ItemVoucher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/api/ItemVoucher.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/api/Voucher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/api/Voucher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/command/ViewCommand.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/command/VoucherCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/command/VoucherCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/listener/PlayerListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/listener/PlayerListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/player/Holder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/player/Holder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/player/HolderManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/player/HolderManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/storage/ConfigFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/storage/ConfigFile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/item/CrucibleItemType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/item/CrucibleItemType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/item/ItemType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/item/ItemType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/item/MMOItemType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/item/MMOItemType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/item/VanillaItemType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/item/VanillaItemType.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/storage/ConfigManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/storage/ConfigManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/storage/VoucherSettings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/storage/VoucherSettings.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/tracker/VoucherTracker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/tracker/VoucherTracker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/config.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/vouchers.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/vouchers.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -105,6 +92,7 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;Gradle.VoucherPlugin [clean build].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.VoucherPlugin [clean publishToMavenLocal].executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
@@ -140,7 +128,7 @@
       <recent name="com.ravingarinc.voucher.storage.sql" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Gradle.VoucherPlugin [clean build]">
     <configuration name="VoucherPlugin [clean build]" type="GradleRunConfiguration" factoryName="Gradle" nameIsGenerated="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -164,6 +152,33 @@
       <RunAsTest>false</RunAsTest>
       <method v="2" />
     </configuration>
+    <configuration name="VoucherPlugin [clean publishToMavenLocal]" type="GradleRunConfiguration" factoryName="Gradle" nameIsGenerated="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="clean" />
+            <option value="publishToMavenLocal" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Gradle.VoucherPlugin [clean build]" />
+      <item itemvalue="Gradle.VoucherPlugin [clean publishToMavenLocal]" />
+    </list>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -189,7 +204,19 @@
       <workItem from="1693972767277" duration="613000" />
       <workItem from="1694859941283" duration="158000" />
       <workItem from="1707268358058" duration="5895000" />
-      <workItem from="1707277994882" duration="1692000" />
+      <workItem from="1707277994882" duration="1865000" />
+      <workItem from="1708577576103" duration="1027000" />
+      <workItem from="1708579407870" duration="244000" />
+      <workItem from="1709013557079" duration="2300000" />
+      <workItem from="1709019312177" duration="296000" />
+      <workItem from="1709020362982" duration="24000" />
+      <workItem from="1709020431651" duration="156000" />
+      <workItem from="1709030462276" duration="112000" />
+      <workItem from="1709030591031" duration="200000" />
+      <workItem from="1709030794213" duration="3000" />
+      <workItem from="1709030817177" duration="8000" />
+      <workItem from="1709030849013" duration="102000" />
+      <workItem from="1709898500818" duration="14000" />
     </task>
     <task id="LOCAL-00001" summary="Main changes to main code with all features implemented">
       <created>1677469327428</created>
@@ -303,7 +330,15 @@
       <option name="project" value="LOCAL" />
       <updated>1693897849504</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="made a number of changes, including added support for mythic crucible and mmoitems.">
+      <option name="closed" value="true" />
+      <created>1707279701111</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1707279701111</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -337,6 +372,7 @@
     <MESSAGE value="Final changes&#10;&#10;again!" />
     <MESSAGE value="remove log messages" />
     <MESSAGE value="Update with new RavinAPI!" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update with new RavinAPI!" />
+    <MESSAGE value="made a number of changes, including added support for mythic crucible and mmoitems." />
+    <option name="LAST_COMMIT_MESSAGE" value="made a number of changes, including added support for mythic crucible and mmoitems." />
   </component>
 </project>

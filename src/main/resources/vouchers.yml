@@ -5,20 +5,46 @@
 # types from other plugins are currently not supported)
 #
 # There are three types of possible items here
-# Vanilla Minecraft - 'vanilla:<namespace>:<tier>'
-# MMOItems - 'mmoitems:<type>:<identifier>:<tier>'
-# Mythic Crucible - 'crucible:<identifier>:<tier>'
+# Vanilla Minecraft - 'vanilla:<namespace>'
+# MMOItems - 'mmoitems:<type>:<identifier>'
+# Mythic Crucible - 'crucible:<identifier>'
 #
 # If no namespace is specified then vanilla is assumed.
 # A tier can quite literally be anything as the plugin will simply add whatever is specified here as a tier
 # But for your purposes, you probably want to stick to "basic", "advanced" and "expert"
 material-vouchers:
-  - "diamond_sword:advanced"
-  - "vanilla:leather_helmet:basic"
-  - "vanilla:leather_chestplate:basic"
-  - "vanilla:obsidian:advanced"
-  - "mmoitems:shortsword:mithril_shortsword:expert"
-  - "crucible:cursed_blade:expert"
+  - item: "diamond_sword"
+    tier: basic
+    craft-time: 5s # Accepts seconds, minutes, hours, days.
+    energy-cost: 10 # How much energy this costs to produce
+    money-cost: 0 # The monetary cost to craft this item
+    item-costs:
+      - id: "vanilla:diamond"
+        quantity: 2
+      - id: "vanilla:stick"
+        quantity: 1
+  - item: "mmoitems:shortsword:mithril_shortsword"
+    tier: advanced
+    craft-time: 1m
+    energy-cost: 20
+    money-cost: 0
+    item-costs:
+      - id: "mmoitems:material:mithril"
+        quantity: 2
+      - id: "vanilla:stick"
+        quantity: 1
+  - item: "crucible:cursed_sword"
+    tier: expert
+    craft-time: 2m
+    energy-cost: 30
+    money-cost: 50
+    item-costs:
+      - id: "mmoitems:material:mithril"
+        quantity: 5
+      - id: "vanilla:emerald_block"
+        quantity: 3
+      - id: "vanilla:dragon_egg"
+        quantity: 1
   # Farm vouchers must be considered different since they involve multiple materials. Added options here in cases
   # new farm items are added in the future. Minecraft is a bit weird regarding these materials, since sometimes the block id
   # material different to the item material, or the seed material is different or the same to the item material.

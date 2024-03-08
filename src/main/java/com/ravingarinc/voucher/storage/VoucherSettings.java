@@ -28,6 +28,12 @@ public class VoucherSettings {
     public static boolean blockFoodMaterialCraft = false;
     public static boolean blockFoodMaterialConsume = false;
 
+    public static boolean preventItemCrafting = true;
+
+    public static boolean preventItemDamage = true;
+    public static boolean preventItemEquipping = true;
+    public static boolean preventItemInteraction = true;
+
     public static Material border1 = Material.BLACK_STAINED_GLASS_PANE;
     public static Material border2 = Material.GRAY_STAINED_GLASS_PANE;
 

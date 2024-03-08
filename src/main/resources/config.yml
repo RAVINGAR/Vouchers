@@ -19,6 +19,10 @@ messages:
   # want a message.
   deny-message: '&cYou must unlock the voucher for that item to use it!'
 miscellaneous:
+  prevent-crafting: true
+  prevent-damage: true
+  prevent-interactions: true
+  prevent-equip: true
   # For material vouchers, if a block is specified, should the plugin block placement of said block?
   prevent-block-placement: true
   # For material vouchers, if a block is specified, should the plugin block mining of said block?
