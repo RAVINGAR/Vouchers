@@ -18,7 +18,7 @@ material-vouchers:
     craft-time: 5s # Accepts seconds, minutes, hours, days.
     energy-cost: 10 # How much energy this costs to produce
     money-cost: 0 # The monetary cost to craft this item
-    item-costs:
+    item-costs: # Max of 3 (internally)
       - id: "vanilla:diamond"
         quantity: 2
       - id: "vanilla:stick"

@@ -8,6 +8,9 @@ plugins {
     id 'maven-publish'
 }
 
+apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'maven-publish'
+
 group = 'com.ravingarinc.voucher'
 version = '1.5-SNAPSHOT'
 
@@ -81,8 +84,9 @@ jar {
 }
 
 shadowJar {
+    archiveFileName.set("Vouchers.jar")
     archiveBaseName.set('Vouchers')
-    archiveClassifier.set('')
+    archiveClassifier.set('all')
     archiveVersion.set(this.project.version)
     relocate 'com.ravingarinc.api', 'com.ravingarinc.voucher.lib.api'
 }
@@ -121,9 +125,9 @@ assemble.finalizedBy copyToDev
 
 publishing {
     publications {
-        maven(MavenPublication) {
+        shadow(MavenPublication) {
             groupId = this.project.group
-            artifactId = this.project.name
+            artifactId = 'Vouchers'
             version = this.project.version
             from components.java
         }

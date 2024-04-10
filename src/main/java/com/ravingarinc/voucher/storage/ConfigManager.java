@@ -69,7 +69,10 @@ public class ConfigManager extends Module {
                         final Map<?, ?> innerMap = (Map<?, ?>)val;
                         final ItemType costType = getItemType(innerMap.get("id").toString());
                         final int quantity = Integer.parseInt(innerMap.get("quantity").toString());
-                        voucher.addItemCost(costType, quantity);
+                        if(costType != null && quantity > 0) {
+                            voucher.addItemCost(costType, quantity);
+                        }
+
                     });
                     tracker.addVoucher(voucher);
                 }

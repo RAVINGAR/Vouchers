@@ -4,21 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="717a9acc-0232-48f8-b3e5-8646944292ca" name="Changes" comment="made a number of changes, including added support for mythic crucible and mmoitems.">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/api/event/VouchersReloadedEvent.java" afterDir="false" />
+    <list default="true" id="717a9acc-0232-48f8-b3e5-8646944292ca" name="Changes" comment="Added toggleable options to disable or enable various parts of the plugin">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/Vouchers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/Vouchers.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/api/ArmourVoucher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/api/ArmourVoucher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/api/BlockVoucher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/api/BlockVoucher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/api/FarmVoucher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/api/FarmVoucher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/api/ItemVoucher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/api/ItemVoucher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/api/Voucher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/api/Voucher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/item/CrucibleItemType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/item/CrucibleItemType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/item/ItemType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/item/ItemType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/item/MMOItemType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/item/MMOItemType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/item/VanillaItemType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/item/VanillaItemType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/storage/ConfigManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ravingarinc/voucher/storage/ConfigManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/vouchers.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/vouchers.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -216,7 +204,15 @@
       <workItem from="1709030794213" duration="3000" />
       <workItem from="1709030817177" duration="8000" />
       <workItem from="1709030849013" duration="102000" />
-      <workItem from="1709898500818" duration="14000" />
+      <workItem from="1709898500818" duration="870000" />
+      <workItem from="1709901383996" duration="347000" />
+      <workItem from="1709901821784" duration="65000" />
+      <workItem from="1709901955316" duration="922000" />
+      <workItem from="1709956372085" duration="2014000" />
+      <workItem from="1710400800008" duration="721000" />
+      <workItem from="1710556294043" duration="25000" />
+      <workItem from="1712719968374" duration="119000" />
+      <workItem from="1712720129709" duration="3000" />
     </task>
     <task id="LOCAL-00001" summary="Main changes to main code with all features implemented">
       <created>1677469327428</created>
@@ -338,7 +334,15 @@
       <option name="project" value="LOCAL" />
       <updated>1707279701111</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Added toggleable options to disable or enable various parts of the plugin">
+      <option name="closed" value="true" />
+      <created>1709901116666</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1709901116666</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -373,6 +377,7 @@
     <MESSAGE value="remove log messages" />
     <MESSAGE value="Update with new RavinAPI!" />
     <MESSAGE value="made a number of changes, including added support for mythic crucible and mmoitems." />
-    <option name="LAST_COMMIT_MESSAGE" value="made a number of changes, including added support for mythic crucible and mmoitems." />
+    <MESSAGE value="Added toggleable options to disable or enable various parts of the plugin" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added toggleable options to disable or enable various parts of the plugin" />
   </component>
 </project>
